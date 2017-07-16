@@ -1,8 +1,8 @@
 <?php
 
-namespace Chart;
+namespace Chart\Config;
 
-class Options
+class Config
 {
     /**
      * @var array
@@ -12,10 +12,14 @@ class Options
     /**
      * @param $name
      * @param $value
+     *
+     * @return $this
      */
     public function __set($name, $value)
     {
         $this->attributes[$name] = $value;
+
+        return $this;
     }
 
     /**
@@ -29,12 +33,29 @@ class Options
     }
 
     /**
-     * Generates an array of options
+     * @param $name
+     * @param $value
+     *
+     * @return $this
+     */
+    public function __call($name, $value)
+    {
+        return $this->__set($name, $value[0]);
+    }
+
+    /**
+     * Generates an array of configuration options
      *
      * @return array
      */
     public function toArray()
     {
+        array_walk_recursive($this->attributes, function (&$item) {
+            if (is_object($item)) {
+                $item = $item->toArray();
+            }
+        });
+
         return $this->attributes;
     }
 }

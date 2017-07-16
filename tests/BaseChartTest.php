@@ -26,14 +26,16 @@ class BaseChartTest extends TestCase
     public function it_is_responsive()
     {
         $expected = [
-            'type'    => '',
-            'dataset' => [],
+            'type'    => null,
+            'data'    => [],
             'options' => [
                 'responsive' => true
             ]
         ];
 
-        $this->assertEquals($expected, $this->chart->isResponsive()->get());
+        $this->chart->options->responsive(true);
+
+        $this->assertEquals($expected, $this->chart->get());
     }
 
     /** @test */
@@ -41,12 +43,43 @@ class BaseChartTest extends TestCase
     {
         $expected = [
             'type'    => '',
-            'dataset' => [],
+            'data'    => [],
             'options' => [
                 'responsiveAnimationDuration' => 10
             ]
         ];
+        $this->chart->options->responsiveAnimationDuration(10);
 
-        $this->assertEquals($expected, $this->chart->responsiveAnimationDuration(10)->get());
+        $this->assertEquals($expected, $this->chart->get());
+    }
+
+    /** @test */
+    public function it_has_basic_datasets_array()
+    {
+        $this->chart->data->datasets([
+            [
+                'data' => [10, 20, 30]
+            ],
+            [
+                'data' => [30, 20, 10]
+            ]
+        ]);
+
+        $expected = json_encode([
+            'type'    => null,
+            'data'    => [
+                'datasets' => [
+                    (object)[
+                        'data' => [10, 20, 30]
+                    ],
+                    (object)[
+                        'data' => [30, 20, 10]
+                    ]
+                ]
+            ],
+            'options' => []
+        ], true);
+
+        $this->assertEquals($expected, $this->chart->toJson());
     }
 }
