@@ -1,0 +1,41 @@
+{
+  "name": "bbsnly/chartjs-php",
+  "description": "PHP library for ChartJS 2.0",
+  "keywords": [
+    "chartjs",
+    "php"
+  ],
+  "homepage": "https://github.com/bbsnly/chartjs-php",
+  "type": "package",
+  "version": "dev-master",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Anatoliy Babushka",
+      "email": "anatoliybabushka@gmail.com"
+    }
+  ],
+  "require-dev": {
+    "phpunit/phpunit": "^6.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Chart\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": [
+      "vendor/bin/phpunit"
+    ]
+  },
+  "config": {
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "optimize-autoloader": true
+  }
+}
