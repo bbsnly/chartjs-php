@@ -2,16 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d8a5088c-b824-4161-a34c-27f512a3bca2" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/composerJson.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/phpunit.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Chart.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Dataset.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/LineChart.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Options.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/BaseChartTest.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/LineChartTest.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/TestCase.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -59,11 +51,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Chart.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Chart.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Chart.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="167">
               <caret line="70" column="35" lean-forward="false" selection-start-line="70" selection-start-column="35" selection-end-line="70" selection-end-column="35" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="29">
+              <caret line="1" column="5" lean-forward="false" selection-start-line="1" selection-start-column="5" selection-end-line="1" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -86,6 +88,7 @@
         <option value="$PROJECT_DIR$/src/Options.php" />
         <option value="$PROJECT_DIR$/tests/LineChartTest.php" />
         <option value="$PROJECT_DIR$/tests/BaseChartTest.php" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -249,12 +252,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1500223707462</updated>
-      <workItem from="1500223709968" duration="4726000" />
+      <workItem from="1500223709968" duration="4780000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="4726000" />
+    <option name="totallyTimeSpent" value="4780000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1440" height="828" extended-state="6" />
@@ -417,6 +420,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="167">
           <caret line="70" column="35" lean-forward="false" selection-start-line="70" selection-start-column="35" selection-end-line="70" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="29">
+          <caret line="1" column="5" lean-forward="false" selection-start-line="1" selection-start-column="5" selection-end-line="1" selection-end-column="5" />
           <folding />
         </state>
       </provider>
