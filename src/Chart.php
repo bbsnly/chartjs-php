@@ -3,7 +3,7 @@
 namespace Chart;
 
 
-class Chart
+class Chart implements ChartInterface
 {
     /**
      * @var string
@@ -20,6 +20,9 @@ class Chart
      */
     protected $dataset = [];
 
+    /**
+     * Chart constructor.
+     */
     public function __construct()
     {
         $this->options = new Options();
@@ -47,7 +50,7 @@ class Chart
      */
     public function isResponsive($status = true)
     {
-        $this->options->setResponsive($status);
+        $this->options->responsive = $status;
 
         return $this;
     }
@@ -62,7 +65,7 @@ class Chart
      */
     public function responsiveAnimationDuration($duration = 0)
     {
-        $this->options->setResponsiveAnimationDuration($duration);
+        $this->options->responsiveAnimationDuration = $duration;
 
         return $this;
     }

@@ -5,14 +5,28 @@ namespace Chart;
 class Options
 {
     /**
-     * @var bool
+     * @var array
      */
-    protected $responsive;
+    protected $attributes = [];
 
     /**
-     * @var int
+     * @param $name
+     * @param $value
      */
-    protected $responsiveAnimationDuration;
+    public function __set($name, $value)
+    {
+        $this->attributes[$name] = $value;
+    }
+
+    /**
+     * @param $name
+     *
+     * @return mixed
+     */
+    public function __get($name)
+    {
+        return $this->attributes['name'];
+    }
 
     /**
      * Generates an array of options
@@ -21,32 +35,6 @@ class Options
      */
     public function toArray()
     {
-        $res = [];
-
-        if (isset($this->responsive)) {
-            $res['responsive'] = $this->responsive;
-        }
-
-        if (isset($this->responsiveAnimationDuration)) {
-            $res['responsiveAnimationDuration'] = $this->responsiveAnimationDuration;
-        }
-
-        return $res;
-    }
-
-    /**
-     * @param mixed $responsive
-     */
-    public function setResponsive($responsive)
-    {
-        $this->responsive = $responsive;
-    }
-
-    /**
-     * @param mixed $responsiveAnimationDuration
-     */
-    public function setResponsiveAnimationDuration($responsiveAnimationDuration)
-    {
-        $this->responsiveAnimationDuration = $responsiveAnimationDuration;
+        return $this->attributes;
     }
 }

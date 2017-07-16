@@ -3,7 +3,7 @@
 namespace Chart;
 
 
-class LineChart extends Chart
+class LineChart extends Chart implements ChartInterface
 {
     /**
      * LineChart constructor.
