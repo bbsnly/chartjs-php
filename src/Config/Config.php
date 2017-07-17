@@ -16,7 +16,7 @@ class Config implements ConfigInterface
      */
     public function __get($name)
     {
-        return $this->attributes['name'];
+        return $this->attributes[$name];
     }
 
     /**
