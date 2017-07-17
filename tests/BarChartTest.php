@@ -2,41 +2,39 @@
 
 namespace Tests;
 
-use Chart\Chart;
+use Chart\BarChart;
 use Chart\Config\Data;
 use Chart\Config\Dataset;
 use Chart\Config\Options;
 
-class BaseChartTest extends TestCase
+class BarChartTest extends TestCase
 {
     /**
-     * @var Chart
+     * @var BarChart
      */
     protected $chart;
 
     public function setUp()
     {
-        $this->chart = new Chart;
+        $this->chart = new BarChart;
     }
 
     /** @test */
     public function can_create_it()
     {
-        $this->assertInstanceOf('Chart\Chart', $this->chart);
+        $this->assertInstanceOf('Chart\BarChart', $this->chart);
     }
 
     /** @test */
     public function it_is_responsive()
     {
         $expected = [
-            'type'    => 'line',
+            'type'    => 'bar',
             'data'    => [],
             'options' => [
                 'responsive' => true
             ]
         ];
-
-        $this->chart->type = 'line';
 
         $options = (new Options)->responsive(true);
         $this->chart->options($options);
@@ -48,15 +46,13 @@ class BaseChartTest extends TestCase
     public function it_is_animated()
     {
         $expected = [
-            'type'    => 'line',
+            'type'    => 'bar',
             'data'    => [],
             'options' => [
                 'responsive'                  => true,
                 'responsiveAnimationDuration' => 10
             ]
         ];
-
-        $this->chart->type = 'line';
 
         $options = (new Options)
             ->responsive(true)
@@ -80,7 +76,7 @@ class BaseChartTest extends TestCase
         $this->chart->data($data);
 
         $expected = json_encode([
-            'type'    => null,
+            'type'    => 'bar',
             'data'    => [
                 'datasets' => [
                     (object)[
@@ -112,7 +108,7 @@ class BaseChartTest extends TestCase
         $this->chart->data($data);
 
         $expected = [
-            'type'    => null,
+            'type'    => 'bar',
             'data'    => [
                 'datasets' => [
                     [
@@ -145,7 +141,7 @@ class BaseChartTest extends TestCase
         $this->chart->data($data);
 
         $expected = [
-            'type'    => null,
+            'type'    => 'bar',
             'data'    => [
                 'datasets' => [
                     [

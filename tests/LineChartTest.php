@@ -2,27 +2,27 @@
 
 namespace Tests;
 
-use Chart\Chart;
 use Chart\Config\Data;
 use Chart\Config\Dataset;
 use Chart\Config\Options;
+use Chart\LineChart;
 
-class BaseChartTest extends TestCase
+class LineChartTest extends TestCase
 {
     /**
-     * @var Chart
+     * @var LineChart
      */
     protected $chart;
 
     public function setUp()
     {
-        $this->chart = new Chart;
+        $this->chart = new LineChart;
     }
 
     /** @test */
     public function can_create_it()
     {
-        $this->assertInstanceOf('Chart\Chart', $this->chart);
+        $this->assertInstanceOf('Chart\LineChart', $this->chart);
     }
 
     /** @test */
@@ -35,8 +35,6 @@ class BaseChartTest extends TestCase
                 'responsive' => true
             ]
         ];
-
-        $this->chart->type = 'line';
 
         $options = (new Options)->responsive(true);
         $this->chart->options($options);
@@ -55,8 +53,6 @@ class BaseChartTest extends TestCase
                 'responsiveAnimationDuration' => 10
             ]
         ];
-
-        $this->chart->type = 'line';
 
         $options = (new Options)
             ->responsive(true)
@@ -80,7 +76,7 @@ class BaseChartTest extends TestCase
         $this->chart->data($data);
 
         $expected = json_encode([
-            'type'    => null,
+            'type'    => 'line',
             'data'    => [
                 'datasets' => [
                     (object)[
@@ -112,7 +108,7 @@ class BaseChartTest extends TestCase
         $this->chart->data($data);
 
         $expected = [
-            'type'    => null,
+            'type'    => 'line',
             'data'    => [
                 'datasets' => [
                     [
@@ -145,7 +141,7 @@ class BaseChartTest extends TestCase
         $this->chart->data($data);
 
         $expected = [
-            'type'    => null,
+            'type'    => 'line',
             'data'    => [
                 'datasets' => [
                     [

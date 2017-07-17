@@ -3,7 +3,9 @@
 namespace Chart;
 
 
-use Chart\Config\Config;
+use Chart\Config\ConfigInterface;
+use Chart\Config\Data;
+use Chart\Config\Options;
 
 class Chart implements ChartInterface
 {
@@ -13,12 +15,12 @@ class Chart implements ChartInterface
     public $type;
 
     /**
-     * @var Config
+     * @var Options
      */
     public $options;
 
     /**
-     * @var Config
+     * @var Data
      */
     public $data;
 
@@ -27,8 +29,8 @@ class Chart implements ChartInterface
      */
     public function __construct()
     {
-        $this->options = new Config();
-        $this->data = new Config();
+        $this->options = new Options();
+        $this->data = new Data();
     }
 
     /**
@@ -39,16 +41,6 @@ class Chart implements ChartInterface
     public function get()
     {
         return $this->toArray();
-    }
-
-    /**
-     * Return a JSON with all entered options
-     *
-     * @return string
-     */
-    public function toJson()
-    {
-        return json_encode($this->toArray(), true);
     }
 
     /**
@@ -63,5 +55,43 @@ class Chart implements ChartInterface
             'data'    => $this->data->toArray(),
             'options' => $this->options->toArray()
         ];
+    }
+
+    /**
+     * Return a JSON with all entered options
+     *
+     * @return string
+     */
+    public function toJson()
+    {
+        return json_encode($this->toArray(), true);
+    }
+
+    /**
+     * Set the chart options
+     *
+     * @param ConfigInterface $options
+     *
+     * @return $this
+     */
+    public function options(ConfigInterface $options)
+    {
+        $this->options = $options;
+
+        return $this;
+    }
+
+    /**
+     * Set the chart data
+     *
+     * @param ConfigInterface $data
+     *
+     * @return $this
+     */
+    public function data(ConfigInterface $data)
+    {
+        $this->data = $data;
+
+        return $this;
     }
 }

@@ -2,12 +2,22 @@
 
 namespace Chart\Config;
 
-class Config
+class Config implements ConfigInterface
 {
     /**
      * @var array
      */
     protected $attributes = [];
+
+    /**
+     * @param $name
+     *
+     * @return mixed
+     */
+    public function __get($name)
+    {
+        return $this->attributes['name'];
+    }
 
     /**
      * @param $name
@@ -20,16 +30,6 @@ class Config
         $this->attributes[$name] = $value;
 
         return $this;
-    }
-
-    /**
-     * @param $name
-     *
-     * @return mixed
-     */
-    public function __get($name)
-    {
-        return $this->attributes['name'];
     }
 
     /**
