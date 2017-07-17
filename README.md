@@ -2,8 +2,8 @@
 The package lets you generate [ChartJS](http://www.chartjs.org/ "ChartJS") element directly in PHP.
 
 ## Requirements
-* php >= 5.6
-* ChartJS >= 2.0
+* `php >= 5.6`
+* `ChartJS >= 2.0`
 
 ### Examples
 You can find some examples [here](https://github.com/bbsnly/chartjs-php/tree/master/tests/examples "ChartJS PHP Examples")
