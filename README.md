@@ -1,9 +1,12 @@
 # ChartJS-PHP
-The package helps you to generate [ChartJS](http://www.chartjs.org/ "ChartJS") 
+The package helps you to generate [ChartJS](http://www.chartjs.org/ "ChartJS")
 element directly in PHP and translate it to JSON.
 
 ## Install
 `composer require bbsnly/chartjs-php`
+
+## Test
+`composer test`
 
 ## Requirements
 * `php >= 5.6`
@@ -20,7 +23,7 @@ element directly in PHP and translate it to JSON.
 * [Scatter](http://www.chartjs.org/docs/latest/charts/scatter.html)
 * [Mixed](http://www.chartjs.org/docs/latest/charts/mixed.html)
 
-Also it is possible to use the package with `New Charts`[http://www.chartjs.org/docs/latest/developers/charts.html]
+Also it is possible to use the package with [New Charts](http://www.chartjs.org/docs/latest/developers/charts.html)
 using the `Chart` class
 
 ## How To
@@ -88,7 +91,7 @@ $options->responsive(true);
 $chart->options($options);
 ```
 ### Config class
-To configure your chart you can use the `Config` class directly or helpers 
+To configure your chart you can use the `Config` class directly or helpers
 like `Dataset` or `Options`.
 
 You can extend it and add a helper for wherever you need (ex. `Scales`).
@@ -97,7 +100,7 @@ If you decide to override the `Config` class you should implement
 the `ConfigInterface` to be sure about the compatibility.
 
 ## Code Examples
-You can find some examples 
+You can find some examples
 [here](https://github.com/bbsnly/chartjs-php/tree/master/tests/examples "ChartJS PHP Examples")
 
 ## Contributing
@@ -106,5 +109,5 @@ Thank you for considering contributing to the ChartJS PHP!
 
 ## License
 
-The ChartJS PHP is open-sourced software licensed under the 
+The ChartJS PHP is open-sourced software licensed under the
 [MIT license](http://opensource.org/licenses/MIT).
