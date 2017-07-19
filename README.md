@@ -1,16 +1,30 @@
 # ChartJS-PHP
-The package lets you generate [ChartJS](http://www.chartjs.org/ "ChartJS") element directly in PHP.
+The package helps you to generate [ChartJS](http://www.chartjs.org/ "ChartJS") 
+element directly in PHP and translate it to JSON.
+
+## Install
+`composer require bbsnly/chartjs-php`
 
 ## Requirements
 * `php >= 5.6`
 * `ChartJS >= 2.0`
 
-### Examples
-You can find some examples [here](https://github.com/bbsnly/chartjs-php/tree/master/tests/examples "ChartJS PHP Examples")
+## Charts
+* [Line](http://www.chartjs.org/docs/latest/charts/line.html)
+* [Bar](http://www.chartjs.org/docs/latest/charts/bar.html)
+* [Radar](http://www.chartjs.org/docs/latest/charts/radar.html)
+* [Doughnut](http://www.chartjs.org/docs/latest/charts/doughnut.html)
+* [Pie](http://www.chartjs.org/docs/latest/charts/doughnut.html)
+* [Polar Area](http://www.chartjs.org/docs/latest/charts/polar.html)
+* [Bubble](http://www.chartjs.org/docs/latest/charts/bubble.html)
+* [Scatter](http://www.chartjs.org/docs/latest/charts/scatter.html)
+* [Mixed](http://www.chartjs.org/docs/latest/charts/mixed.html)
 
-### Usage
-#### Create
-To create a new Chart you can use different objects:
+Also it is possible to use the package with `New Charts`[http://www.chartjs.org/docs/latest/developers/charts.html]
+using the `Chart` class
+
+## How To
+### Create
 ```
 $chart = new Chart;
 $chart->type = 'line';
@@ -23,32 +37,68 @@ $chart->toJson();
 ```
 provides the same result.
 
-#### Options
-You can personalize your chart using `Config` class or all the helpers classes like `Options` or `Data`.
-It's very simple because those classes are totally dynamic so you can add as more options as you need.
+### Usage
+To personalize your chart you have three options:
+* Using arrays
+* Using attributes
+* Using methods
+
+#### Examples
+Using arrays
 ```
-$data = new Data;
-$options = new Options;
+$chart->data([
+    'labels' => ['Red', 'Green', 'Blue'],
+    'datasets' => [{
+        'data' => [5, 10, 20]
+    }]
+]);
 
-$datasets = [
-    (new Dataset)->data([0, 3000, 3500, 4000])
-        ->fill(false)
-        ->label('USD')
-        ->backgroundColor('rgb(74, 142, 189)')
-        ->borderColor('rgb(74, 142, 189)')
-];
+$chart->options([
+    'responsive' => true
+]);
+```
+Using attributes
+```
+$data = new Data();
 
-$data->datasets($datasets)
-     ->labels([2014, 2015, 2016, 2017]);
+$data->labels = ['Red', 'Green', 'Blue'];
 
-$options->responsive(false);
+$dataset = new Dataset();
+$dataset->data = [5, 10, 20];
+$data->datasets[] = $dataset->data;
 
 $chart->data($data);
-$chart->options($options);
 
-$chart->toJson();
+$options = new Options();
+$options->responsive = true;
+$chart->options($options);
 ```
-You can extend `Config` to create your own helpers
+Using methods
+```
+$data = new Data;
+
+$data->datasets([
+    (new Dataset)->data([5, 10, 20])
+])->labels(['Red', 'Green', 'Blue']);
+
+$chart->data($data);
+
+$options = new Options();
+$options->responsive(true);
+$chart->options($options);
+```
+### Config class
+To configure your chart you can use the `Config` class directly or helpers 
+like `Dataset` or `Options`.
+
+You can extend it and add a helper for wherever you need (ex. `Scales`).
+
+If you decide to override the `Config` class you should implement
+the `ConfigInterface` to be sure about the compatibility.
+
+## Code Examples
+You can find some examples 
+[here](https://github.com/bbsnly/chartjs-php/tree/master/tests/examples "ChartJS PHP Examples")
 
 ## Contributing
 
@@ -56,4 +106,5 @@ Thank you for considering contributing to the ChartJS PHP!
 
 ## License
 
-The ChartJS PHP is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+The ChartJS PHP is open-sourced software licensed under the 
+[MIT license](http://opensource.org/licenses/MIT).

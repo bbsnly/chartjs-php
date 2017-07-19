@@ -7,7 +7,17 @@ class Config implements ConfigInterface
     /**
      * @var array
      */
-    protected $attributes = [];
+    protected $attributes;
+
+    /**
+     * Config constructor.
+     *
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        $this->attributes = $attributes;
+    }
 
     /**
      * @param $name

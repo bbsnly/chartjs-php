@@ -70,12 +70,16 @@ class BaseChartTest extends TestCase
     /** @test */
     public function it_has_basic_datasets_json()
     {
-        $datasets = [
-            (new Dataset)->data([10, 20, 30]),
-            (new Dataset)->data([30, 20, 10])
+        $data = [
+            'datasets' => [
+                [
+                    'data' => [10, 20, 30]
+                ],
+                [
+                    'data' => [30, 20, 10]
+                ]
+            ]
         ];
-
-        $data = (new Data)->datasets($datasets);
 
         $this->chart->data($data);
 

@@ -3,7 +3,6 @@
 namespace Chart;
 
 
-use Chart\Config\ConfigInterface;
 use Chart\Config\Data;
 use Chart\Config\Options;
 
@@ -70,12 +69,16 @@ class Chart implements ChartInterface
     /**
      * Set the chart options
      *
-     * @param ConfigInterface $options
+     * @param $options
      *
      * @return $this
      */
-    public function options(ConfigInterface $options)
+    public function options($options)
     {
+        if (is_array($options)) {
+            $options = new Options($options);
+        }
+
         $this->options = $options;
 
         return $this;
@@ -84,12 +87,16 @@ class Chart implements ChartInterface
     /**
      * Set the chart data
      *
-     * @param ConfigInterface $data
+     * @param $data
      *
      * @return $this
      */
-    public function data(ConfigInterface $data)
+    public function data($data)
     {
+        if (is_array($data)) {
+            $data = new Data($data);
+        }
+
         $this->data = $data;
 
         return $this;
