@@ -3,6 +3,7 @@
 <p align="center">
 <a href="https://packagist.org/packages/bbsnly/chartjs-php"><img src="https://poser.pugx.org/bbsnly/chartjs-php/d/total.svg" alt="Total Downloads"></a>
 <a href="https://packagist.org/packages/bbsnly/chartjs-php"><img src="https://poser.pugx.org/bbsnly/chartjs-php/v/stable.svg" alt="Latest Stable Version"></a>
+<a href="https://travis-ci.org/bbsnly/chartjs-php"><img src="https://travis-ci.org/bbsnly/chartjs-php.svg?branch=master" alt="License"></a>
 <a href="https://packagist.org/packages/bbsnly/chartjs-php"><img src="https://poser.pugx.org/bbsnly/chartjs-php/license.svg" alt="License"></a>
 </p>
 
