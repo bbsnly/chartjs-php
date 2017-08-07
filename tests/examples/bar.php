@@ -19,11 +19,10 @@ $data->datasets($datasets)->labels(['Red', 'Green', 'Blue']);
 
 $chart->data($data);
 
-$options = $options->responsive(false)
-    // Start at zero
-    ->scales((new \Chart\Config\Config())->yAxes([(new \Chart\Config\Config())->ticks(['beginAtZero' => true])]));
+$options = $options->responsive(false);
 $chart->options($options);
 
+$chart->beginAtZero();
 $myChart = $chart->toJson();
 
 include_once __DIR__ . '/base.php';

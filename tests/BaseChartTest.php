@@ -29,8 +29,8 @@ class BaseChartTest extends TestCase
     public function it_is_responsive()
     {
         $expected = [
-            'type'    => 'line',
-            'data'    => [],
+            'type' => 'line',
+            'data' => [],
             'options' => [
                 'responsive' => true
             ]
@@ -48,10 +48,10 @@ class BaseChartTest extends TestCase
     public function it_is_animated()
     {
         $expected = [
-            'type'    => 'line',
-            'data'    => [],
+            'type' => 'line',
+            'data' => [],
             'options' => [
-                'responsive'                  => true,
+                'responsive' => true,
                 'responsiveAnimationDuration' => 10
             ]
         ];
@@ -84,8 +84,8 @@ class BaseChartTest extends TestCase
         $this->chart->data($data);
 
         $expected = json_encode([
-            'type'    => null,
-            'data'    => [
+            'type' => null,
+            'data' => [
                 'datasets' => [
                     (object)[
                         'data' => [10, 20, 30]
@@ -116,8 +116,8 @@ class BaseChartTest extends TestCase
         $this->chart->data($data);
 
         $expected = [
-            'type'    => null,
-            'data'    => [
+            'type' => null,
+            'data' => [
                 'datasets' => [
                     [
                         'data' => [10, 20, 30],
@@ -126,7 +126,7 @@ class BaseChartTest extends TestCase
                         'data' => [30, 20, 10]
                     ]
                 ],
-                'labels'   => ['Red', 'Green', 'Blue']
+                'labels' => ['Red', 'Green', 'Blue']
             ],
             'options' => []
         ];
@@ -149,21 +149,63 @@ class BaseChartTest extends TestCase
         $this->chart->data($data);
 
         $expected = [
-            'type'    => null,
-            'data'    => [
+            'type' => null,
+            'data' => [
                 'datasets' => [
                     [
-                        'data'            => [10, 20, 30],
+                        'data' => [10, 20, 30],
                         'backgroundColor' => ['red', 'green', 'blue']
                     ],
                     [
-                        'data'            => [30, 20, 10],
+                        'data' => [30, 20, 10],
                         'backgroundColor' => ['red', 'green', 'blue']
                     ]
                 ],
-                'labels'   => ['Red', 'Green', 'Blue']
+                'labels' => ['Red', 'Green', 'Blue']
             ],
             'options' => []
+        ];
+
+        $this->assertEquals($expected, $this->chart->get());
+    }
+
+    /** @test */
+    public function can_set_start_from_zero_using_helper()
+    {
+        $data = new Data;
+
+        $datasets = [
+            (new Dataset)->data([10, 20, 30])->backgroundColor(['red', 'green', 'blue'])
+        ];
+
+        $data->datasets($datasets)->labels(['Red', 'Green', 'Blue']);
+
+        $this->chart->data($data);
+
+        $this->chart->beginAtZero();
+
+        $expected = [
+            'type' => null,
+            'data' => [
+                'datasets' => [
+                    [
+                        'data' => [10, 20, 30],
+                        'backgroundColor' => ['red', 'green', 'blue']
+                    ]
+                ],
+                'labels' => ['Red', 'Green', 'Blue']
+            ],
+            'options' => [
+                'scales' => [
+                    'yAxes' => [
+                        [
+                            'ticks' => [
+                                'beginAtZero' => true
+                            ]
+                        ]
+                    ]
+                ]
+            ]
         ];
 
         $this->assertEquals($expected, $this->chart->get());

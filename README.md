@@ -1,4 +1,11 @@
 # ChartJS-PHP
+
+<p align="center">
+<a href="https://packagist.org/packages/bbsnly/chartjs-php"><img src="https://poser.pugx.org/bbsnly/chartjs-php/d/total.svg" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/bbsnly/chartjs-php"><img src="https://poser.pugx.org/bbsnly/chartjs-php/v/stable.svg" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/bbsnly/chartjs-php"><img src="https://poser.pugx.org/bbsnly/chartjs-php/license.svg" alt="License"></a>
+</p>
+
 The package helps you to generate [ChartJS](http://www.chartjs.org/ "ChartJS")
 element directly in PHP and translate it to JSON.
 
@@ -9,7 +16,7 @@ element directly in PHP and translate it to JSON.
 `composer test`
 
 ## Requirements
-* `php >= 5.6`
+* `php >= 7.0`
 * `ChartJS >= 2.0`
 
 ## Charts

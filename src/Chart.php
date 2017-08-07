@@ -50,8 +50,8 @@ class Chart implements ChartInterface
     public function toArray()
     {
         return [
-            'type'    => $this->type,
-            'data'    => $this->data->toArray(),
+            'type' => $this->type,
+            'data' => $this->data->toArray(),
             'options' => $this->options->toArray()
         ];
     }
@@ -98,6 +98,24 @@ class Chart implements ChartInterface
         }
 
         $this->data = $data;
+
+        return $this;
+    }
+
+    /**
+     *
+     */
+    public function beginAtZero()
+    {
+        $this->options->scales([
+            'yAxes' => [
+                [
+                    'ticks' => [
+                        'beginAtZero' => true
+                    ]
+                ]
+            ]
+        ]);
 
         return $this;
     }
