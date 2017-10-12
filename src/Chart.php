@@ -118,4 +118,27 @@ class Chart implements ChartInterface
 
         return $this;
     }
+
+    /**
+     * @param string $element
+     * @param Chart|null $chart
+     * @param string $height
+     * @param string $width
+     *
+     * @return string
+     */
+    public function toHtml(string $element, Chart $chart = null)
+    {
+        if ($chart === null) {
+            $chart = $this;
+        }
+
+        return '<canvas id="' . $element . '"></canvas>
+        <script>
+            new Chart(
+                document.getElementById("' . $element . '").getContext("2d"),
+                ' . $chart->toJson() . '
+            );
+        </script>';
+    }
 }

@@ -106,6 +106,14 @@ $chart->options($options);
 
 $chart->toJson();
 ```
+
+### Blade
+It is also possible to use the Blade Directive and generate the chart canvas
+```blade
+@chartjs('element_id', $chart)
+```
+
+
 ### Config class
 To configure your chart you can use the `Config` class directly or helpers
 like `Dataset` or `Options`.

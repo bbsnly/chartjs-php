@@ -2,6 +2,7 @@
 
 namespace Bbsnly\ChartJs;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class ChartServiceProvider extends ServiceProvider
@@ -13,7 +14,9 @@ class ChartServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Blade::directive('chartjs', function ($expression) {
+            return "<?php echo app(\Bbsnly\ChartJs\Chart::class)->toHtml($expression); ?>";
+        });
     }
 
     /**
