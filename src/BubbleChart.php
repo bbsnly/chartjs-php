@@ -1,6 +1,6 @@
 <?php
 
-namespace Chart;
+namespace Bbsnly\ChartJs;
 
 class BubbleChart extends Chart
 {

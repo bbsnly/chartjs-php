@@ -1,6 +1,6 @@
 <?php
 
-namespace Chart\Config;
+namespace Bbsnly\ChartJs\Config;
 
 class Config implements ConfigInterface
 {
@@ -50,7 +50,7 @@ class Config implements ConfigInterface
      */
     public function __call($name, $value)
     {
-        return $this->__set($name, $value[0]);
+        return $this->__set($name, reset($value));
     }
 
     /**

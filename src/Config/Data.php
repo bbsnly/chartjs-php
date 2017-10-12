@@ -1,6 +1,6 @@
 <?php
 
-namespace Chart\Config;
+namespace Bbsnly\ChartJs\Config;
 
 class Data extends Config
 {

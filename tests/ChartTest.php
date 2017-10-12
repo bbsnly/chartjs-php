@@ -2,10 +2,10 @@
 
 namespace Tests;
 
-use Chart\Chart;
-use Chart\Config\Data;
-use Chart\Config\Dataset;
-use Chart\Config\Options;
+use Bbsnly\ChartJs\Chart;
+use Bbsnly\ChartJs\Config\Data;
+use Bbsnly\ChartJs\Config\Dataset;
+use Bbsnly\ChartJs\Config\Options;
 
 class BaseChartTest extends TestCase
 {
@@ -22,7 +22,7 @@ class BaseChartTest extends TestCase
     /** @test */
     public function can_create_it()
     {
-        $this->assertInstanceOf('Chart\Chart', $this->chart);
+        $this->assertInstanceOf('Bbsnly\ChartJs\Chart', $this->chart);
     }
 
     /** @test */

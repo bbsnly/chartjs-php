@@ -1,10 +1,9 @@
 <?php
 
-namespace Chart;
+namespace Bbsnly\ChartJs;
 
-
-use Chart\Config\Data;
-use Chart\Config\Options;
+use Bbsnly\ChartJs\Config\Data;
+use Bbsnly\ChartJs\Config\Options;
 
 class Chart implements ChartInterface
 {
@@ -103,7 +102,7 @@ class Chart implements ChartInterface
     }
 
     /**
-     *
+     * Helper to generate beginAtZero configuration
      */
     public function beginAtZero()
     {
