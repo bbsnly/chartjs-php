@@ -23,7 +23,7 @@ class ChartServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->make(Chart::class, function ($app) {
+        $this->app->bind(Chart::class, function ($app) {
             return new Chart();
         });
     }
