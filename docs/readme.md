@@ -7,14 +7,23 @@
 <a href="https://packagist.org/packages/bbsnly/chartjs-php"><img src="https://poser.pugx.org/bbsnly/chartjs-php/license.svg" alt="License"></a>
 </p>
 
-The package helps you to generate [ChartJS](http://www.chartjs.org/ "ChartJS")
-element directly in PHP and translate it to JSON.
+
+**For non Laravel projects, please use the [1.2](https://github.com/bbsnly/chartjs-php/tree/1.2) branch**
+
+This package helps you to generate [ChartJS](http://www.chartjs.org/ "ChartJS") element directly in PHP and translate it to JSON.
 
 ## Install
-`composer require bbsnly/chartjs-php`
+Require this package with composer.
+```shell
+composer require bbsnly/chartjs-php
+```
 
-## Test
-`composer test`
+Laravel 5.5 uses Package Auto-Discovery, so doesn't require you to manually add the ServiceProvider.
+
+If you don't use auto-discovery, add the ServiceProvider to the providers array in config/app.php
+```php
+Bbsnly\ChartJs\ChartServiceProvider::class,
+```
 
 ## Requirements
 * `php >= 7.0`
@@ -34,44 +43,37 @@ element directly in PHP and translate it to JSON.
 Also it is possible to use the package with [New Charts](http://www.chartjs.org/docs/latest/developers/charts.html)
 using the `Chart` class
 
-## How To
-### Create
-```
-$chart = new Chart;
-$chart->type = 'line';
-$chart->toJson();
-```
-and
-```
-$chart = new LineChart;
-$chart->toJson();
-```
-provides the same result.
-
-### Usage
+## Usage
 To personalize your chart you have three options:
 * Using arrays
 * Using attributes
 * Using methods
 
-#### Examples
+### Examples
 Using arrays
-```
+```php
+$chart = app(Bbsnly\ChartJs\Chart::class);
+
 $chart->data([
     'labels' => ['Red', 'Green', 'Blue'],
-    'datasets' => [{
-        'data' => [5, 10, 20]
-    }]
+    'datasets' => [
+        [
+            'data' => [5, 10, 20]
+        ]
+    ]
 ]);
 
 $chart->options([
     'responsive' => true
 ]);
+
+$chart->toJson();
 ```
 Using attributes
-```
-$data = new Data();
+```php
+$chart = app(Bbsnly\ChartJs\Chart::class);
 
+$data = new Data();
 $data->labels = ['Red', 'Green', 'Blue'];
 
 $dataset = new Dataset();
@@ -83,9 +85,13 @@ $chart->data($data);
 $options = new Options();
 $options->responsive = true;
 $chart->options($options);
+
+$chart->toJson();
 ```
 Using methods
-```
+```php
+$chart = app(Bbsnly\ChartJs\Chart::class);
+
 $data = new Data;
 
 $data->datasets([
@@ -97,25 +103,22 @@ $chart->data($data);
 $options = new Options();
 $options->responsive(true);
 $chart->options($options);
+
+$chart->toJson();
 ```
 ### Config class
 To configure your chart you can use the `Config` class directly or helpers
 like `Dataset` or `Options`.
 
-You can extend it and add a helper for wherever you need (ex. `Scales`).
+You can extend it and add a helper you need (ex. `Scales`).
 
 If you decide to override the `Config` class you should implement
 the `ConfigInterface` to be sure about the compatibility.
 
-## Code Examples
-You can find some examples
-[here](https://github.com/bbsnly/chartjs-php/tree/master/tests/examples "ChartJS PHP Examples")
 
 ## Contributing
-
 Thank you for considering contributing to the ChartJS PHP!
 
 ## License
-
 The ChartJS PHP is open-sourced software licensed under the
 [MIT license](http://opensource.org/licenses/MIT).
