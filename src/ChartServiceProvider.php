@@ -2,9 +2,9 @@
 
 namespace Bbsnly\ChartJs;
 
-use Bbsnly\ChartJs\Chart;
+use Illuminate\Support\ServiceProvider;
 
-class ServiceProvider extends \Illuminate\Support\ServiceProvider
+class ChartServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application events.
