@@ -12,6 +12,19 @@
 
 This package helps you to generate [ChartJS](http://www.chartjs.org/ "ChartJS") element directly in PHP.
 
+
+## Table of Contents
+- [Install](#install)
+- [Requirements](#requirements)
+- [Charts](#charts)
+- [Usage](usage)
+- [Examples](examples)
+- [Blade](blade)
+- [Extend](extend)
+- [Contributing](#contributing)
+- [License](#license)
+
+
 ## Install
 Require this package with composer.
 ```shell
@@ -25,9 +38,11 @@ If you don't use auto-discovery, add the ServiceProvider to the providers array 
 Bbsnly\ChartJs\ChartServiceProvider::class,
 ```
 
+
 ## Requirements
 * `php >= 7.0`
 * `ChartJS >= 2.0`
+
 
 ## Charts
 * [Line](http://www.chartjs.org/docs/latest/charts/line.html)
@@ -43,109 +58,10 @@ Bbsnly\ChartJs\ChartServiceProvider::class,
 Also it is possible to use the package with [New Charts](http://www.chartjs.org/docs/latest/developers/charts.html)
 using the `Chart` class
 
-## Usage
-To personalize your chart you have three options:
-* Using arrays
-* Using attributes
-* Using methods
-
-### Examples
-Using arrays
-```php
-$chart = app(Bbsnly\ChartJs\Chart::class);
-
-$chart->data([
-    'labels' => ['Red', 'Green', 'Blue'],
-    'datasets' => [
-        [
-            'data' => [5, 10, 20]
-        ]
-    ]
-]);
-
-$chart->options([
-    'responsive' => true
-]);
-
-$chart->toJson();
-```
-Using attributes
-```php
-$chart = app(Bbsnly\ChartJs\Chart::class);
-
-$data = new Data();
-$data->labels = ['Red', 'Green', 'Blue'];
-
-$dataset = new Dataset();
-$dataset->data = [5, 10, 20];
-$data->datasets[] = $dataset->data;
-
-$chart->data($data);
-
-$options = new Options();
-$options->responsive = true;
-$chart->options($options);
-
-$chart->toJson();
-```
-Using methods
-```php
-$chart = app(Bbsnly\ChartJs\Chart::class);
-
-$data = new Data;
-
-$data->datasets([
-    (new Dataset)->data([5, 10, 20])
-])->labels(['Red', 'Green', 'Blue']);
-
-$chart->data($data);
-
-$options = new Options();
-$options->responsive(true);
-$chart->options($options);
-
-$chart->toJson();
-```
-
-#### Mixed Chart Type
-```php
-$chart = app(Bbsnly\ChartJs\Chart::class);
-
-$chart->type = 'bar';
-
-$data = new Data;
-
-$datasets = [
-    (new Dataset)->data([10, 20, 30, 40])->label('Bar Dataset'),
-    (new Dataset)->data([50, 50, 50, 50])->label('Line Dataset')->type('line'),
-];
-
-$data->datasets($datasets)->labels(['January', 'February', 'March', 'April']);
-
-$chart->data($data);
-
-$chart->get();
-```
-
-### Blade
-It is also possible to use the Blade Directive and generate the chart canvas
-```blade
-@chartjs('element_id', $chart)
-```
-
-
-### Config class
-To configure your chart you can use the `Config` class directly or helpers
-like `Dataset` or `Options`.
-
-You can extend it and add a helper you need (ex. `Scales`).
-
-If you decide to override the `Config` class you should implement
-the `ConfigInterface` to be sure about the compatibility.
-
 
 ## Contributing
 Thank you for considering contributing to the ChartJS PHP!
+
 
 ## License
 The ChartJS PHP is open-sourced software licensed under the
