@@ -210,4 +210,42 @@ class BaseChartTest extends TestCase
 
         $this->assertEquals($expected, $this->chart->get());
     }
+
+    /** @test */
+    public function can_create_mixed_chart_types()
+    {
+        $this->chart->type = 'bar';
+
+        $data = new Data;
+
+        $datasets = [
+            (new Dataset)->data([10, 20, 30, 40])->label('Bar Dataset'),
+            (new Dataset)->data([50, 50, 50, 50])->label('Line Dataset')->type('line'),
+        ];
+
+        $data->datasets($datasets)->labels(['January', 'February', 'March', 'April']);
+
+        $this->chart->data($data);
+
+        $expected = [
+            'type' => 'bar',
+            'data' => [
+                'datasets' => [
+                    [
+                        'data' => [10, 20, 30, 40],
+                        'label' => 'Bar Dataset'
+                    ],
+                    [
+                        'data' => [50, 50, 50, 50],
+                        'label' => 'Line Dataset',
+                        'type' => 'line'
+                    ]
+                ],
+                'labels' => ['January', 'February', 'March', 'April']
+            ],
+            'options' => []
+        ];
+
+        $this->assertEquals($expected, $this->chart->get());
+    }
 }

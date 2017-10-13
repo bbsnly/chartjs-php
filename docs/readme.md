@@ -10,7 +10,7 @@
 
 **For non Laravel projects, please use the [1.2](https://github.com/bbsnly/chartjs-php/tree/1.2) branch**
 
-This package helps you to generate [ChartJS](http://www.chartjs.org/ "ChartJS") element directly in PHP and translate it to JSON.
+This package helps you to generate [ChartJS](http://www.chartjs.org/ "ChartJS") element directly in PHP.
 
 ## Install
 Require this package with composer.
@@ -105,6 +105,26 @@ $options->responsive(true);
 $chart->options($options);
 
 $chart->toJson();
+```
+
+#### Mixed Chart Type
+```php
+$chart = app(Bbsnly\ChartJs\Chart::class);
+
+$chart->type = 'bar';
+
+$data = new Data;
+
+$datasets = [
+    (new Dataset)->data([10, 20, 30, 40])->label('Bar Dataset'),
+    (new Dataset)->data([50, 50, 50, 50])->label('Line Dataset')->type('line'),
+];
+
+$data->datasets($datasets)->labels(['January', 'February', 'March', 'April']);
+
+$chart->data($data);
+
+$chart->get();
 ```
 
 ### Blade
