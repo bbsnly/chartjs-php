@@ -1,10 +1,10 @@
 # Examples
 
 ## Table of Contents
-- [Std Chart](#std_chart)
-- [Helper class](#helper_class)
-- [Begin At Zero](#begin_at_zero)
-- [Mixed Chart Type](#mixed_chart_type)
+- [Std Chart](#std-chart)
+- [Helper class](#helper-class)
+- [Begin At Zero](#begin-at-zero)
+- [Mixed Chart Type](#mixed-chart-type)
 
 
 #### Std Chart

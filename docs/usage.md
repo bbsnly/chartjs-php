@@ -1,9 +1,9 @@
 # Usage
 
 ## Table of Contents
-- [Using arrays](#using_arrays)
-- [Using attributes](#using_attributes)
-- [Using methods](#using_methods)
+- [Using arrays](#using-arrays)
+- [Using attributes](#using-attributes)
+- [Using methods](#using-methods)
 
 To personalize your chart you have three options:
 * Using arrays
