@@ -13,7 +13,7 @@ To personalize your chart you have three options:
 All data and options element are dynamic so you can create tthe exact configuration you need.
 
 
-####Using arrays
+#### Using arrays
 ```php
 $chart = app(Bbsnly\ChartJs\Chart::class);
 
@@ -32,7 +32,7 @@ $chart->options([
     'responsive' => true
 ]);
 ```
-####Using attributes
+#### Using attributes
 ```php
 $chart = app(Bbsnly\ChartJs\Chart::class);
 
@@ -51,7 +51,7 @@ $options = new Options();
 $options->responsive = true;
 $chart->options($options);
 ```
-####Using methods
+#### Using methods
 ```php
 $chart = app(Bbsnly\ChartJs\Chart::class);
 
