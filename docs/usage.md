@@ -5,11 +5,6 @@
 - [Using attributes](#using-attributes)
 - [Using methods](#using-methods)
 
-To personalize your chart you have three options:
-* Using arrays
-* Using attributes
-* Using methods
-
 All data and options element are dynamic so you can create tthe exact configuration you need.
 
 
