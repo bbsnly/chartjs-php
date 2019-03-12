@@ -31,7 +31,7 @@ Require this package with composer.
 composer require bbsnly/chartjs-php
 ```
 
-Laravel 5.5 uses Package Auto-Discovery, so doesn't require you to manually add the ServiceProvider.
+Laravel 5.5 (and later) uses Package Auto-Discovery, so doesn't require you to manually add the ServiceProvider.
 
 If you don't use auto-discovery, add the ServiceProvider to the providers array in config/app.php
 ```php
@@ -40,7 +40,7 @@ Bbsnly\ChartJs\ChartServiceProvider::class,
 
 
 ## Requirements
-* `php >= 7.0`
+* `php >= 7.1`
 * `ChartJS >= 2.0`
 
 
