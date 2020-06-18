@@ -8,7 +8,7 @@
     ],
     "homepage": "https://github.com/bbsnly/chartjs-php",
     "type": "package",
-    "version": "2.2.0",
+    "version": "3.0.0",
     "license": "MIT",
     "authors": [
         {
@@ -17,7 +17,7 @@
         }
     ],
     "require": {
-        "php": ">=7.1"
+        "php": ">=7.4"
     },
     "autoload": {
         "psr-4": {
@@ -37,7 +37,7 @@
         }
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.5"
+        "phpunit/phpunit": "^9.2"
     },
     "scripts": {
         "test": [

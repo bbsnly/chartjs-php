@@ -4,16 +4,8 @@ namespace Bbsnly\ChartJs\Config;
 
 class Config implements ConfigInterface
 {
-    /**
-     * @var array
-     */
-    protected $attributes;
+    protected array $attributes;
 
-    /**
-     * Config constructor.
-     *
-     * @param array $attributes
-     */
     public function __construct(array $attributes = [])
     {
         $this->attributes = $attributes;
@@ -53,12 +45,7 @@ class Config implements ConfigInterface
         return $this->__set($name, reset($value));
     }
 
-    /**
-     * Generates an array of configuration options
-     *
-     * @return array
-     */
-    public function toArray()
+    public function toArray(): array
     {
         array_walk_recursive($this->attributes, function (&$item) {
             if (is_object($item)) {

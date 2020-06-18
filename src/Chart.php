@@ -7,46 +7,27 @@ use Bbsnly\ChartJs\Config\Options;
 
 class Chart implements ChartInterface
 {
-    /**
-     * @var string
-     */
-    public $type;
+    public ?string $type;
 
-    /**
-     * @var Options
-     */
-    public $options;
+    public Options $options;
 
-    /**
-     * @var Data
-     */
-    public $data;
+    public Data $data;
 
-    /**
-     * Chart constructor.
-     */
     public function __construct()
     {
+        $this->type = null;
+
         $this->options = new Options();
+
         $this->data = new Data();
     }
 
-    /**
-     * Return an array with all entered options
-     *
-     * @return array
-     */
-    public function get()
+    public function get(): array
     {
         return $this->toArray();
     }
 
-    /**
-     * Return an array with all entered options
-     *
-     * @return array
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'type' => $this->type,
@@ -55,47 +36,20 @@ class Chart implements ChartInterface
         ];
     }
 
-    /**
-     * Return a JSON with all entered options
-     *
-     * @return string
-     */
-    public function toJson()
+    public function toJson(): string
     {
         return json_encode($this->toArray(), true);
     }
 
-    /**
-     * Set the chart options
-     *
-     * @param $options
-     *
-     * @return $this
-     */
-    public function options($options)
+    public function options(Options $options): self
     {
-        if (is_array($options)) {
-            $options = new Options($options);
-        }
-
         $this->options = $options;
 
         return $this;
     }
 
-    /**
-     * Set the chart data
-     *
-     * @param $data
-     *
-     * @return $this
-     */
-    public function data($data)
+    public function data(Data $data): self
     {
-        if (is_array($data)) {
-            $data = new Data($data);
-        }
-
         $this->data = $data;
 
         return $this;
@@ -104,7 +58,7 @@ class Chart implements ChartInterface
     /**
      * Helper to generate beginAtZero configuration
      */
-    public function beginAtZero()
+    public function beginAtZero(): self
     {
         $this->options->scales([
             'yAxes' => [
@@ -119,15 +73,7 @@ class Chart implements ChartInterface
         return $this;
     }
 
-    /**
-     * @param string $element
-     * @param Chart|null $chart
-     * @param string $height
-     * @param string $width
-     *
-     * @return string
-     */
-    public function toHtml(string $element, Chart $chart = null)
+    public function toHtml(string $element, Chart $chart = null): string
     {
         if ($chart === null) {
             $chart = $this;

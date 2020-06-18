@@ -1,15 +1,16 @@
 # Examples
 
 ## Table of Contents
+
 - [Std Chart](#std-chart)
 - [Helper class](#helper-class)
 - [Begin At Zero](#begin-at-zero)
 - [Mixed Chart Type](#mixed-chart-type)
 
+## Std Chart
 
-#### Std Chart
 ```php
-$chart = app(Bbsnly\ChartJs\Chart::class);
+$chart = new \Bbsnly\ChartJs\Chart;
 
 $chart->type = 'bar';
 
@@ -25,10 +26,10 @@ $data->datasets($datasets)->labels(['January', 'February', 'March', 'April']);
 $chart->data($data);
 ```
 
+## Helper class
 
-#### Helper class
 ```php
-$chart = new Bbsnly\ChartJs\BarChart;
+$chart = new \Bbsnly\ChartJs\BarChart;
 
 $data = new Data;
 
@@ -42,10 +43,10 @@ $data->datasets($datasets)->labels(['January', 'February', 'March', 'April']);
 $chart->data($data);
 ```
 
+## Begin At Zero
 
-#### Begin At Zero
 ```php
-$chart = app(Bbsnly\ChartJs\Chart::class);
+$chart = new \Bbsnly\ChartJs\Chart;
 
 $chart->type = 'bar';
 
@@ -63,8 +64,8 @@ $chart->data($data);
 $chart->beginAtZero();
 ```
 
+## Mixed Chart Type
 
-#### Mixed Chart Type
 ```php
 $chart = new app(Bbsnly\ChartJs\Chart::class);
 

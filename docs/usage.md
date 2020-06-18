@@ -1,35 +1,16 @@
 # Usage
 
 ## Table of Contents
-- [Using arrays](#using-arrays)
+
 - [Using attributes](#using-attributes)
 - [Using methods](#using-methods)
 
 All data and options element are dynamic so you can create tthe exact configuration you need.
 
+## Using attributes
 
-#### Using arrays
 ```php
-$chart = app(Bbsnly\ChartJs\Chart::class);
-
-$chart->type = 'bar';
-
-$chart->data([
-    'labels' => ['Red', 'Green', 'Blue'],
-    'datasets' => [
-        [
-            'data' => [5, 10, 20]
-        ]
-    ]
-]);
-
-$chart->options([
-    'responsive' => true
-]);
-```
-#### Using attributes
-```php
-$chart = app(Bbsnly\ChartJs\Chart::class);
+$chart = new \Bbsnly\ChartJs\Chart;
 
 $chart->type = 'line';
 
@@ -46,9 +27,11 @@ $options = new Options();
 $options->responsive = true;
 $chart->options($options);
 ```
-#### Using methods
+
+## Using methods
+
 ```php
-$chart = app(Bbsnly\ChartJs\Chart::class);
+$chart = new \Bbsnly\ChartJs\Chart;
 
 $chart->type = 'bar';
 

@@ -4,5 +4,5 @@ namespace Bbsnly\ChartJs\Config;
 
 interface ConfigInterface
 {
-    public function toArray();
+    public function toArray(): array;
 }

@@ -9,12 +9,9 @@ use Bbsnly\ChartJs\Config\Options;
 
 class BaseChartTest extends TestCase
 {
-    /**
-     * @var Chart
-     */
-    protected $chart;
+    protected Chart $chart;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->chart = new Chart;
     }
@@ -22,7 +19,7 @@ class BaseChartTest extends TestCase
     /** @test */
     public function can_create_it()
     {
-        $this->assertInstanceOf('Bbsnly\ChartJs\Chart', $this->chart);
+        $this->assertInstanceOf(Chart::class, $this->chart);
     }
 
     /** @test */
@@ -70,7 +67,7 @@ class BaseChartTest extends TestCase
     /** @test */
     public function it_has_basic_datasets_json()
     {
-        $data = [
+        $data = new Data([
             'datasets' => [
                 [
                     'data' => [10, 20, 30]
@@ -79,7 +76,7 @@ class BaseChartTest extends TestCase
                     'data' => [30, 20, 10]
                 ]
             ]
-        ];
+        ]);
 
         $this->chart->data($data);
 

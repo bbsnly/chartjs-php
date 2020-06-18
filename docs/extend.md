@@ -1,4 +1,5 @@
 # Extend
+
 To configure your chart you can use the `Config` class directly or helpers
 like `Dataset` or `Options`.
 

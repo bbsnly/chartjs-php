@@ -4,9 +4,9 @@ namespace Bbsnly\ChartJs;
 
 interface ChartInterface
 {
-    public function get();
+    public function get(): array;
 
-    public function toJson();
+    public function toJson(): string;
 
-    public function toArray();
+    public function toArray(): array;
 }
