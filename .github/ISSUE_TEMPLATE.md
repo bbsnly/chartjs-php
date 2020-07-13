@@ -1,8 +1,9 @@
-* PHP: v7.0.0
-* Laravel: v5.5.0
+* PHP: v7.*.**
 
+### Description
 
-### Description:
+Lorem ipsum dolor sit
 
+### Steps To Reproduce
 
-### Steps To Reproduce:
+* Lorem ipsum dolor sit
