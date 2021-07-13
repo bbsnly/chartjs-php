@@ -29,13 +29,6 @@
             "Tests\\": "tests/"
         }
     },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Bbsnly\\ChartJs\\ChartServiceProvider"
-            ]
-        }
-    },
     "require-dev": {
         "phpunit/phpunit": "^9.2"
     },
