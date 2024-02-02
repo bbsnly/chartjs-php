@@ -7,7 +7,7 @@ use Bbsnly\ChartJs\Config\Data;
 use Bbsnly\ChartJs\Config\Dataset;
 use Bbsnly\ChartJs\Config\Options;
 
-class BaseChartTest extends TestCase
+class ChartTest extends TestCase
 {
     protected Chart $chart;
 

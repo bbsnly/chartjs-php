@@ -32,7 +32,7 @@ We reserve the right to take appropriate actions in response to any behavior tha
 
 ## Attribution
 
-This code of conduct is adapted from the Contributor Covenant, version 2.1, available at <https://www.contributor-covenant.org/version/2/1/code_of_conduct.html>.
+This code of conduct is adapted from the Contributor Covenant, version 2.1, available at <https://www.contributor-covenant.org/version/2/1/code_of_conduct/>.
 
 ## Conclusion
 
