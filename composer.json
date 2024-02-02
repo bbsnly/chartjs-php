@@ -1,10 +1,9 @@
 {
     "name": "bbsnly/chartjs-php",
-    "description": "Laravel helper for ChartJS 2.0",
+    "description": "PHP wrapper for Chart.js library",
     "keywords": [
         "chartjs",
-        "php",
-        "laravel"
+        "php"
     ],
     "homepage": "https://github.com/bbsnly/chartjs-php",
     "type": "package",
@@ -34,7 +33,7 @@
     },
     "scripts": {
         "test": [
-          "vendor/bin/phpunit"
+            "vendor/bin/phpunit"
         ]
     }
 }
