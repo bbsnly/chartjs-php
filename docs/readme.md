@@ -21,7 +21,7 @@ composer require bbsnly/chartjs-php
 
 Minimum Requirements:
 
-- PHP version: 7.4 or higher
+- PHP version: 8.2 or higher
 - ChartJS version: 2.0 or higher
 
 ## Usage
