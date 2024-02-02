@@ -16,13 +16,26 @@ class BaseChartTest extends TestCase
         $this->chart = new Chart;
     }
 
-    /** @test */
+    /**
+     * @test
+     *
+     * Test if the chart instance can be created successfully.
+     *
+     * We assert that the created instance is an instance of the Chart class.
+     */
     public function can_create_it()
     {
         $this->assertInstanceOf(Chart::class, $this->chart);
     }
 
-    /** @test */
+    /**
+     * @test
+     *
+     * Test if the chart is responsive.
+     *
+     * We set the chart type to 'line' and assert that the chart options
+     * include the 'responsive' property set to true.
+     */
     public function it_is_responsive()
     {
         $expected = [
@@ -41,7 +54,15 @@ class BaseChartTest extends TestCase
         $this->assertEquals($expected, $this->chart->get());
     }
 
-    /** @test */
+    /**
+     * @test
+     *
+     * Test if the chart is animated.
+     *
+     * We set the chart type to 'line' and assert that the chart
+     * options include the 'responsive' property set to true and the
+     * 'responsiveAnimationDuration' property set to 10.
+     */
     public function it_is_animated()
     {
         $expected = [
@@ -64,7 +85,15 @@ class BaseChartTest extends TestCase
         $this->assertEquals($expected, $this->chart->get());
     }
 
-    /** @test */
+    /**
+     * @test
+     *
+     * Test if the chart has basic datasets in JSON format.
+     *
+     * We create a Data object with two datasets, each containing an array of data values.
+     * We set the chart data to the created Data object and assert that the
+     * chart data is encoded to the expected JSON format.
+     */
     public function it_has_basic_datasets_json()
     {
         $data = new Data([
@@ -98,7 +127,17 @@ class BaseChartTest extends TestCase
         $this->assertEquals($expected, $this->chart->toJson());
     }
 
-    /** @test */
+    /**
+     * @test
+     *
+     * Test if the chart has basic data with labels.
+     *
+     * We create a Data object and two Dataset objects.
+     * We set the data values and labels for the datasets and set the chart
+     * data to the created Data object.
+     * We assert that the chart data includes the datasets, labels, and
+     * other properties in the expected format.
+     */
     public function it_has_basic_data_with_labels()
     {
         $data = new Data;
@@ -131,7 +170,17 @@ class BaseChartTest extends TestCase
         $this->assertEquals($expected, $this->chart->get());
     }
 
-    /** @test */
+    /**
+     * @test
+     *
+     * Test if the chart has basic data with labels and colors.
+     *
+     * We create a Data object and two Dataset objects.
+     * We set the data values, labels, and background colors for the datasets
+     * and set the chart data to the created Data object.
+     * We assert that the chart data includes the datasets, labels,
+     * background colors, and other properties in the expected format.
+     */
     public function it_has_basic_data_with_labels_and_colors()
     {
         $data = new Data;
@@ -166,7 +215,20 @@ class BaseChartTest extends TestCase
         $this->assertEquals($expected, $this->chart->get());
     }
 
-    /** @test */
+    /**
+     * @test
+     *
+     * Test if the chart can be configured to start from zero using a helper method.
+     *
+     * We create a Data object and a Dataset object.
+     * We set the data values and background colors for the dataset and set
+     * the chart data to the created Data object.
+     * We call the 'beginAtZero' method on the chart instance to configure
+     * the y-axis ticks to start from zero.
+     * We assert that the chart data includes the datasets, labels,
+     * background colors, and other properties in the expected format,
+     * including the 'beginAtZero' configuration for the y-axis ticks.
+     */
     public function can_set_start_from_zero_using_helper()
     {
         $data = new Data;
@@ -208,7 +270,18 @@ class BaseChartTest extends TestCase
         $this->assertEquals($expected, $this->chart->get());
     }
 
-    /** @test */
+    /**
+     * @test
+     *
+     * Test if the chart can create mixed chart types.
+     *
+     * We set the chart type to 'bar' and create a Data object.
+     * We create two Dataset objects, one for the bar chart and one for the line chart.
+     * We set the data values, labels, and chart type for each dataset and set
+     * the chart data to the created Data object.
+     * We assert that the chart data includes the datasets, labels, chart type,
+     * and other properties in the expected format.
+     */
     public function can_create_mixed_chart_types()
     {
         $this->chart->type = 'bar';
