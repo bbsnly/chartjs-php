@@ -1,4 +1,4 @@
-name: PHP Composer
+name: GitHub Actions Tests
 
 on:
   push:
