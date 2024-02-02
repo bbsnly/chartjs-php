@@ -12,8 +12,9 @@ class Config implements ConfigInterface
     }
 
     /**
-     * @param $name
+     * Get the value of a property.
      *
+     * @param string $name
      * @return mixed
      */
     public function __get($name)
@@ -22,9 +23,10 @@ class Config implements ConfigInterface
     }
 
     /**
-     * @param $name
-     * @param $value
+     * Set the value of a property.
      *
+     * @param string $name
+     * @param mixed $value
      * @return $this
      */
     public function __set($name, $value)
@@ -35,9 +37,10 @@ class Config implements ConfigInterface
     }
 
     /**
-     * @param $name
-     * @param $value
+     * Dynamically set the value of a property.
      *
+     * @param string $name
+     * @param mixed $value
      * @return $this
      */
     public function __call($name, $value)
@@ -45,6 +48,11 @@ class Config implements ConfigInterface
         return $this->__set($name, reset($value));
     }
 
+    /**
+     * Convert the object to an array.
+     *
+     * @return array
+     */
     public function toArray(): array
     {
         array_walk_recursive($this->attributes, function (&$item) {

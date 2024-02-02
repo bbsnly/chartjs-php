@@ -22,11 +22,21 @@ class Chart implements ChartInterface
         $this->data = new Data();
     }
 
+    /**
+     * Get the chart as an array
+     *
+     * @return array
+     */
     public function get(): array
     {
         return $this->toArray();
     }
 
+    /**
+     * Convert the chart to an array
+     *
+     * @return array
+     */
     public function toArray(): array
     {
         return [
@@ -36,11 +46,22 @@ class Chart implements ChartInterface
         ];
     }
 
+    /**
+     * Convert the chart to JSON
+     *
+     * @return string
+     */
     public function toJson(): string
     {
         return json_encode($this->toArray(), true);
     }
 
+    /**
+     * Set the chart options
+     *
+     * @param Options $options
+     * @return self
+     */
     public function options(Options $options): self
     {
         $this->options = $options;
@@ -48,6 +69,12 @@ class Chart implements ChartInterface
         return $this;
     }
 
+    /**
+     * Set the chart data
+     *
+     * @param Data $data
+     * @return self
+     */
     public function data(Data $data): self
     {
         $this->data = $data;
@@ -57,6 +84,8 @@ class Chart implements ChartInterface
 
     /**
      * Helper to generate beginAtZero configuration
+     *
+     * @return self
      */
     public function beginAtZero(): self
     {
@@ -73,6 +102,13 @@ class Chart implements ChartInterface
         return $this;
     }
 
+    /**
+     * Generate the HTML representation of the chart
+     *
+     * @param string $element
+     * @param Chart $chart
+     * @return string
+     */
     public function toHtml(string $element, Chart $chart = null): string
     {
         if ($chart === null) {
