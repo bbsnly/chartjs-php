@@ -12,6 +12,8 @@ This package is a powerful tool designed to streamline the process of creating [
 
 ChartJS-PHP bridges this gap by allowing developers to generate [ChartJS](https://www.chartjs.org/ "ChartJS") elements directly in PHP. This means you can create and manipulate [ChartJS](https://www.chartjs.org/ "ChartJS") charts using PHP code, without needing to write any JavaScript. This not only makes your code cleaner and more maintainable, but also enhances productivity by leveraging the power and simplicity of PHP. Whether you're building a data visualization tool, a dashboard, or any application that requires dynamic charts, ChartJS-PHP can be a valuable addition to your PHP toolkit.
 
+**For the ChartJS-PHP package to work correctly, install the ChartJS library following the guidelines on their [official documentation](<https://www.chartjs.org/docs/latest/getting-started/>).**
+
 ## Installation
 
 To install ChartJS-PHP, you can use [Composer](https://getcomposer.org/), a dependency management tool for PHP. Make sure you have Composer installed on your system, and then run the following command in your project directory:
