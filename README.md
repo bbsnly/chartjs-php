@@ -6,7 +6,7 @@
 [![Latest Stable Version](https://poser.pugx.org/bbsnly/chartjs-php/v/stable.svg)](https://packagist.org/packages/bbsnly/chartjs-php)
 [![License](https://poser.pugx.org/bbsnly/chartjs-php/license.svg)](https://packagist.org/packages/bbsnly/chartjs-php)
 
-This package helps you to generate  element directly in PHP.
+This package helps you to generate [ChartJS](https://www.chartjs.org/ "ChartJS") element directly in PHP.
 
 This package is a powerful tool designed to streamline the process of creating [ChartJS](https://www.chartjs.org/ "ChartJS") elements. [ChartJS](https://www.chartjs.org/ "ChartJS") is a popular JavaScript library used for creating beautiful, responsive, and interactive charts. However, it requires writing JavaScript code, which might not be convenient or efficient in a PHP environment.
 
@@ -30,6 +30,10 @@ Minimum Requirements:
 ## Usage
 
 To use ChartJS-PHP, you need to create a new instance of the `Chart` class and set the chart type, data, and options. You can then render the chart to generate the HTML and JavaScript code for the chart.
+
+In the example below we will create a simple line chart using the `Chart` class. We will set the chart type to `line`, add labels and data to the chart, and set the chart options.
+
+It is also possible to use `BarChart`, `BubbleChart`, `DoughnutChart`, `LineChart`, `PieChart`, `PolarAreaChart`, `RadarChart`, and `ScatterChart` classes to create the respective chart types.
 
 ```php
 use Bbsnly\ChartJs\Chart;
@@ -56,6 +60,36 @@ $chart->options($options);
 $chart->get(); // Returns the array of chart data
 $chart->toJson(); // Returns the JSON representation of the chart data
 $chart->toHtml('my_chart'); // Returns the HTML and JavaScript code for the chart
+```
+
+---
+
+In the example below we will use the `toHtml` method to generate the HTML and JavaScript code for the chart.
+
+```php
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div>
+    <?= $chart->toHtml('my_chart'); ?>
+</div>
+```
+
+---
+
+In the example below we will use the `toJson` method to generate the JSON representation of the chart data.
+
+```php
+<div>
+  <canvas id="myChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, <?= $chart->toJson(); ?>);
+</script>
 ```
 
 ## Tests
