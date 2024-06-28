@@ -1,6 +1,6 @@
 # ChartJS-PHP
 
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 [![GitHub Actions Tests](https://github.com/bbsnly/chartjs-php/actions/workflows/php.yml/badge.svg)](https://github.com/bbsnly/chartjs-php/actions)
 [![Total Downloads](https://poser.pugx.org/bbsnly/chartjs-php/d/total.svg)](https://packagist.org/packages/bbsnly/chartjs-php)
 [![Latest Stable Version](https://poser.pugx.org/bbsnly/chartjs-php/v/stable.svg)](https://packagist.org/packages/bbsnly/chartjs-php)
