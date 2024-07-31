@@ -17,7 +17,7 @@ class Config implements ConfigInterface
      * @param string $name
      * @return mixed
      */
-    public function __get($name)
+    public function &__get($name)
     {
         return $this->attributes[$name];
     }
@@ -29,7 +29,7 @@ class Config implements ConfigInterface
      * @param mixed $value
      * @return $this
      */
-    public function __set($name, $value)
+    public function &__set($name, $value)
     {
         $this->attributes[$name] = $value;
 

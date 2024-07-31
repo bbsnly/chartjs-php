@@ -302,4 +302,31 @@ class ChartTest extends TestCase
 
         $this->assertEquals($expected, $this->chart->get());
     }
+
+    /**
+     * Test if the chart dataset can be set as an array without using a method.
+     */
+    public function test_can_set_dataset_as_an_array()
+    {
+        $this->chart->type = 'bar';
+
+        $data = new Data;
+        $dataset = new Dataset();
+        $dataset->data = [5, 10, 20];
+        $data->datasets[] = $dataset->data;
+
+        $this->chart->data($data);
+
+        $expected = [
+            'type' => 'bar',
+            'data' => [
+                'datasets' => [
+                    [5, 10, 20],
+                ],
+            ],
+            'options' => []
+        ];
+
+        $this->assertEquals($expected, $this->chart->get());
+    }
 }
