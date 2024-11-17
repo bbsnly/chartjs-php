@@ -116,8 +116,10 @@ class Chart implements ChartInterface
             $chart = $this;
         }
 
-        $elementId = htmlspecialchars($element, ENT_QUOTES, 'UTF-8');
-        $chartId = 'chart_' . uniqid();
+        $uniqueSuffix = '_' . uniqid();
+        $elementId = htmlspecialchars($element . $uniqueSuffix, ENT_QUOTES, 'UTF-8');
+        $chartId = 'chart' . $uniqueSuffix;
+        $instancesVar = 'bbsnlyChartJSInstances'; // Namespace the global variable
 
         return '<canvas id="' . $elementId . '"></canvas>
         <script>
@@ -131,16 +133,16 @@ class Chart implements ChartInterface
                 const ' . $chartId . ' = new Chart(ctx, ' . $chart->toJson() . ');
 
                 // Store chart instance for potential external access
-                if (typeof window.chartInstances === "undefined") {
-                    window.chartInstances = {};
+                if (typeof window.' . $instancesVar . ' === "undefined") {
+                    window.' . $instancesVar . ' = {};
                 }
-                window.chartInstances["' . $elementId . '"] = ' . $chartId . ';
+                window.' . $instancesVar . '["' . $elementId . '"] = ' . $chartId . ';
 
                 // Cleanup on page unload to prevent memory leaks
                 window.addEventListener("unload", function() {
-                    if (window.chartInstances["' . $elementId . '"]) {
+                    if (window.' . $instancesVar . '["' . $elementId . '"]) {
                         ' . $chartId . '.destroy();
-                        delete window.chartInstances["' . $elementId . '"];
+                        delete window.' . $instancesVar . '["' . $elementId . '"];
                     }
                 });
             })();

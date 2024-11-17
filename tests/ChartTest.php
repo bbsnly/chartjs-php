@@ -355,7 +355,8 @@ class ChartTest extends TestCase
         $maliciousId = '"><script>alert("xss")</script>';
         $html = $this->chart->toHtml($maliciousId);
 
-        $this->assertStringContains('id="&quot;&gt;&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;"', $html);
+        // Update assertion to include unique suffix
+        $this->assertStringContains('id="&quot;&gt;&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;_', $html);
         $this->assertStringNotContains($maliciousId, $html);
     }
 
@@ -396,9 +397,21 @@ class ChartTest extends TestCase
     {
         $html = $this->chart->toHtml('test-chart');
 
-        $this->assertStringContains('window.chartInstances', $html);
-        $this->assertStringContains('window.chartInstances["test-chart"]', $html);
-        $this->assertStringContains('delete window.chartInstances', $html);
+        // Update assertions to use correct global variable name
+        $this->assertStringContains('window.bbsnlyChartJSInstances', $html);
+        $this->assertStringContains('bbsnlyChartJSInstances["test-chart_', $html);
+        $this->assertStringContains('delete window.bbsnlyChartJSInstances', $html);
+    }
+
+    public function test_element_ids_are_unique()
+    {
+        $html1 = $this->chart->toHtml('my-chart');
+        $html2 = $this->chart->toHtml('my-chart');
+
+        preg_match('/id="(my-chart_[^"]+)"/', $html1, $matches1);
+        preg_match('/id="(my-chart_[^"]+)"/', $html2, $matches2);
+
+        $this->assertNotEquals($matches1[1], $matches2[1]);
     }
 
     /**
