@@ -38,10 +38,6 @@ updates:
       - dependency-type: "direct"
       - dependency-type: "indirect"
 
-    # Vulnerability alerts
-    security-updates:
-      enabled: true
-
     # Target specific branches
     target-branch: "main"
 
