@@ -22,7 +22,7 @@ composer require bbsnly/chartjs-php
 
 Minimum Requirements:
 
-- PHP version: 8.2 or higher
+- PHP version: 8.1 or higher
 - ChartJS version: 2.0 or higher
 
 ## Usage
@@ -64,7 +64,7 @@ $chart->toHtml('my_chart'); // Returns the HTML and JavaScript code for the char
 
 In the example below we will use the `toHtml` method to generate the HTML and JavaScript code for the chart.
 
-```php
+```html
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <div>
@@ -76,7 +76,7 @@ In the example below we will use the `toHtml` method to generate the HTML and Ja
 
 In the example below we will use the `toJson` method to generate the JSON representation of the chart data.
 
-```php
+```html
 <div>
   <canvas id="myChart"></canvas>
 </div>
