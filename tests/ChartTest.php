@@ -329,4 +329,108 @@ class ChartTest extends TestCase
 
         $this->assertEquals($expected, $this->chart->get());
     }
+
+    /**
+     * Test if invalid JSON throws JsonException
+     */
+    public function test_invalid_json_throws_exception()
+    {
+        $this->expectException(\JsonException::class);
+
+        // Create an invalid UTF-8 sequence to force JSON encoding error
+        $data = new Data();
+        $dataset = new Dataset();
+        $dataset->data = ["\xFF"]; // Invalid UTF-8 sequence
+        $data->datasets([$dataset]);
+
+        $this->chart->data($data);
+        $this->chart->toJson();
+    }
+
+    /**
+     * Test if HTML special characters are properly escaped
+     */
+    public function test_html_special_chars_are_escaped()
+    {
+        $maliciousId = '"><script>alert("xss")</script>';
+        $html = $this->chart->toHtml($maliciousId);
+
+        $this->assertStringContains('id="&quot;&gt;&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;"', $html);
+        $this->assertStringNotContains($maliciousId, $html);
+    }
+
+    /**
+     * Test if chart cleanup code is present
+     */
+    public function test_chart_cleanup_code_is_present()
+    {
+        $html = $this->chart->toHtml('test-chart');
+        $chartId = 'chart_' . substr($html, strpos($html, 'chart_') + 6, 13); // Extract the dynamic chart ID
+
+        $this->assertStringContains('window.addEventListener("unload"', $html);
+        $this->assertStringContains($chartId . '.destroy()', $html);
+    }
+
+    /**
+     * Test if JSON output properly escapes HTML characters
+     */
+    public function test_json_escapes_html_characters()
+    {
+        $data = new Data;
+        $datasets = [
+            (new Dataset)->data([1])->label('<script>alert("xss")</script>')
+        ];
+        $data->datasets($datasets);
+        $this->chart->data($data);
+
+        $json = $this->chart->toJson();
+
+        $this->assertStringNotContains('<script>', $json);
+        $this->assertStringContains('\u003Cscript\u003E', $json);
+    }
+
+    /**
+     * Test if chart instances are properly tracked and cleaned up
+     */
+    public function test_chart_instances_are_tracked()
+    {
+        $html = $this->chart->toHtml('test-chart');
+
+        $this->assertStringContains('window.chartInstances', $html);
+        $this->assertStringContains('window.chartInstances["test-chart"]', $html);
+        $this->assertStringContains('delete window.chartInstances', $html);
+    }
+
+    /**
+     * Test if error handling for missing canvas is present
+     */
+    public function test_canvas_error_handling()
+    {
+        $html = $this->chart->toHtml('test-chart');
+
+        $this->assertStringContains('if (!canvas)', $html);
+        $this->assertStringContains('console.error', $html);
+    }
+
+    /**
+     * Helper method to assert string contains substring
+     */
+    private function assertStringContains(string $needle, string $haystack): void
+    {
+        $this->assertTrue(
+            str_contains($haystack, $needle),
+            "Failed asserting that '$haystack' contains '$needle'"
+        );
+    }
+
+    /**
+     * Helper method to assert string does not contain substring
+     */
+    private function assertStringNotContains(string $needle, string $haystack): void
+    {
+        $this->assertFalse(
+            str_contains($haystack, $needle),
+            "Failed asserting that '$haystack' does not contain '$needle'"
+        );
+    }
 }

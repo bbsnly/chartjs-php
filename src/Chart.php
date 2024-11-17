@@ -50,10 +50,11 @@ class Chart implements ChartInterface
      * Convert the chart to JSON
      *
      * @return string
+     * @throws \JsonException
      */
     public function toJson(): string
     {
-        return json_encode($this->toArray(), true);
+        return json_encode($this->toArray(), JSON_THROW_ON_ERROR | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT);
     }
 
     /**
@@ -115,12 +116,34 @@ class Chart implements ChartInterface
             $chart = $this;
         }
 
-        return '<canvas id="' . $element . '"></canvas>
+        $elementId = htmlspecialchars($element, ENT_QUOTES, 'UTF-8');
+        $chartId = 'chart_' . uniqid();
+
+        return '<canvas id="' . $elementId . '"></canvas>
         <script>
-            new Chart(
-                document.getElementById("' . $element . '").getContext("2d"),
-                ' . $chart->toJson() . '
-            );
+            (function() {
+                const canvas = document.getElementById("' . $elementId . '");
+                if (!canvas) {
+                    console.error("Canvas element not found: ' . $elementId . '");
+                    return;
+                }
+                const ctx = canvas.getContext("2d");
+                const ' . $chartId . ' = new Chart(ctx, ' . $chart->toJson() . ');
+
+                // Store chart instance for potential external access
+                if (typeof window.chartInstances === "undefined") {
+                    window.chartInstances = {};
+                }
+                window.chartInstances["' . $elementId . '"] = ' . $chartId . ';
+
+                // Cleanup on page unload to prevent memory leaks
+                window.addEventListener("unload", function() {
+                    if (window.chartInstances["' . $elementId . '"]) {
+                        ' . $chartId . '.destroy();
+                        delete window.chartInstances["' . $elementId . '"];
+                    }
+                });
+            })();
         </script>';
     }
 }
