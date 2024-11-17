@@ -9,3 +9,42 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+      time: "09:00"
+      timezone: "UTC"
+
+    # Add labels for pull requests
+    labels:
+      - "dependencies"
+      - "composer"
+
+    # Assign pull requests
+    assignees:
+      - "bbsnly"
+
+    # Configure commit messages
+    commit-message:
+      prefix: "composer"
+      prefix-development: "chore"
+      include: "scope"
+
+    # Specify versioning strategy
+    versioning-strategy: auto
+
+    # Configure pull request settings
+    open-pull-requests-limit: 10
+
+    # Security updates
+    allow:
+      - dependency-type: "direct"
+      - dependency-type: "indirect"
+
+    # Vulnerability alerts
+    security-updates:
+      enabled: true
+
+    # Target specific branches
+    target-branch: "main"
+
+    # Review requirements
+    reviewers:
+      - "bbsnly"
