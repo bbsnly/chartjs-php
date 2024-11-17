@@ -3,7 +3,17 @@
     "description": "PHP wrapper for Chart.js library",
     "keywords": [
         "chartjs",
-        "php"
+        "php",
+        "charts",
+        "graphs",
+        "data-visualization",
+        "javascript",
+        "chart-library",
+        "statistics",
+        "analytics",
+        "php-library",
+        "php-wrapper",
+        "chart-generation"
     ],
     "homepage": "https://github.com/bbsnly/chartjs-php",
     "type": "package",
@@ -15,7 +25,7 @@
         }
     ],
     "require": {
-        "php": ">=8.2"
+        "php": ">=8.1"
     },
     "autoload": {
         "psr-4": {
