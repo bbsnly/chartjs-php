@@ -38,12 +38,8 @@
         }
     },
     "require-dev": {
+        "phpstan/phpstan": "^2.0",
         "phpunit/phpunit": "^10.0"
-    },
-    "scripts": {
-        "test": [
-            "vendor/bin/phpunit"
-        ]
     },
     "config": {
         "optimize-autoloader": true,
