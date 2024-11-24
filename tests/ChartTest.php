@@ -2,10 +2,18 @@
 
 namespace Tests;
 
+use Bbsnly\ChartJs\BarChart;
+use Bbsnly\ChartJs\BubbleChart;
 use Bbsnly\ChartJs\Chart;
 use Bbsnly\ChartJs\Config\Data;
 use Bbsnly\ChartJs\Config\Dataset;
 use Bbsnly\ChartJs\Config\Options;
+use Bbsnly\ChartJs\DoughnutChart;
+use Bbsnly\ChartJs\LineChart;
+use Bbsnly\ChartJs\PieChart;
+use Bbsnly\ChartJs\PolarAreaChart;
+use Bbsnly\ChartJs\RadarChart;
+use Bbsnly\ChartJs\ScatterChart;
 
 class ChartTest extends TestCase
 {
@@ -24,6 +32,78 @@ class ChartTest extends TestCase
     public function test_can_create_it()
     {
         $this->assertInstanceOf(Chart::class, $this->chart);
+    }
+
+    /**
+     * Test if chart type is correctly set using helper class BarChart.
+     */
+    public function test_can_create_bar_chart()
+    {
+        $this->chart = new BarChart;
+        $this->assertEquals('bar', $this->chart->type);
+    }
+
+    /**
+     * Test if chart type is correctly set using helper class BubbleChart.
+     */
+    public function test_can_create_bubble_chart()
+    {
+        $this->chart = new BubbleChart;
+        $this->assertEquals('bubble', $this->chart->type);
+    }
+
+    /**
+     * Test if chart type is correctly set using helper class DoughnutChart.
+     */
+    public function test_can_create_doughnut_chart()
+    {
+        $this->chart = new DoughnutChart;
+        $this->assertEquals('doughnut', $this->chart->type);
+    }
+
+    /**
+     * Test if chart type is correctly set using helper class LineChart.
+     */
+    public function test_can_create_line_chart()
+    {
+        $this->chart = new LineChart;
+        $this->assertEquals('line', $this->chart->type);
+    }
+
+    /**
+     * Test if chart type is correctly set using helper class PieChart.
+     */
+    public function test_can_create_pie_chart()
+    {
+        $this->chart = new PieChart;
+        $this->assertEquals('pie', $this->chart->type);
+    }
+
+    /**
+     * Test if chart type is correctly set using helper class PolarAreaChart.
+     */
+    public function test_can_create_polar_area_chart()
+    {
+        $this->chart = new PolarAreaChart;
+        $this->assertEquals('polarArea', $this->chart->type);
+    }
+
+    /**
+     * Test if chart type is correctly set using helper class RadarChart.
+     */
+    public function test_can_create_radar_chart()
+    {
+        $this->chart = new RadarChart;
+        $this->assertEquals('radar', $this->chart->type);
+    }
+
+    /**
+     * Test if chart type is correctly set using helper class ScatterChart.
+     */
+    public function test_can_create_scatter_chart()
+    {
+        $this->chart = new ScatterChart;
+        $this->assertEquals('scatter', $this->chart->type);
     }
 
     /**

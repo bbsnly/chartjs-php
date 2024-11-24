@@ -2,6 +2,7 @@
 
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 [![Tests](https://github.com/bbsnly/chartjs-php/actions/workflows/php.yml/badge.svg)](https://github.com/bbsnly/chartjs-php/actions)
+[![codecov](https://codecov.io/gh/bbsnly/chartjs-php/graph/badge.svg?token=MTIBNP8BDT)](https://codecov.io/gh/bbsnly/chartjs-php)
 [![Total Downloads](https://poser.pugx.org/bbsnly/chartjs-php/d/total.svg)](https://packagist.org/packages/bbsnly/chartjs-php)
 [![Latest Stable Version](https://poser.pugx.org/bbsnly/chartjs-php/v/stable.svg)](https://packagist.org/packages/bbsnly/chartjs-php)
 [![License](https://poser.pugx.org/bbsnly/chartjs-php/license.svg)](https://packagist.org/packages/bbsnly/chartjs-php)
