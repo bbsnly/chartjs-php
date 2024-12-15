@@ -48,7 +48,7 @@ $data->labels = ['Red', 'Green', 'Blue'];
 
 $dataset = new Dataset();
 $dataset->data = [5, 10, 20];
-$data->datasets[] = $dataset->data;
+$data->datasets[] = $dataset;
 
 $chart->data($data);
 
