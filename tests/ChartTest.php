@@ -536,4 +536,33 @@ class ChartTest extends TestCase
         $this->assertEquals(['key' => 'value'], $config->get());
         $this->assertEquals('{"key":"value"}', $config->toJson());
     }
+
+    /**
+     * Regression test for issue #34: `$data->datasets[] = ...; PHP error`.
+     *
+     * Appending to a not-yet-existing magic property must mutate the real
+     * underlying array. This relies on Config::&__get() returning the
+     * attribute by reference. Without it PHP raises
+     * "Indirect modification of overloaded property ... has no effect"
+     * (which PHPUnit turns into a failure) and the append is silently lost.
+     */
+    public function test_it_can_append_to_a_magic_array_property()
+    {
+        $data = new Data();
+
+        // Property does not exist yet — append must create and grow the array.
+        $data->datasets[] = (new Dataset)->data([10, 20, 30]);
+        $data->datasets[] = (new Dataset)->data([30, 20, 10]);
+
+        $this->assertCount(2, $data->datasets);
+        $this->assertEquals(
+            [
+                'datasets' => [
+                    ['data' => [10, 20, 30]],
+                    ['data' => [30, 20, 10]],
+                ],
+            ],
+            $data->toArray()
+        );
+    }
 }
