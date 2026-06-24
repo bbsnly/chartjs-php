@@ -107,10 +107,10 @@ class Chart implements ChartInterface
      * Generate the HTML representation of the chart
      *
      * @param string $element
-     * @param Chart $chart
+     * @param Chart|null $chart
      * @return string
      */
-    public function toHtml(string $element, Chart $chart = null): string
+    public function toHtml(string $element, ?Chart $chart = null): string
     {
         if ($chart === null) {
             $chart = $this;
