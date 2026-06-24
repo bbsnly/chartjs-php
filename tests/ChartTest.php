@@ -526,4 +526,14 @@ class ChartTest extends TestCase
             "Failed asserting that '$haystack' does not contain '$needle'"
         );
     }
+    /**
+     * Test if Config class get() and toJson() methods work correctly
+     */
+    public function test_config_get_and_tojson_methods()
+    {
+        $config = new \Bbsnly\ChartJs\Config\Config(['key' => 'value']);
+
+        $this->assertEquals(['key' => 'value'], $config->get());
+        $this->assertEquals('{"key":"value"}', $config->toJson());
+    }
 }

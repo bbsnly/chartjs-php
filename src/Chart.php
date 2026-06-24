@@ -25,7 +25,7 @@ class Chart implements ChartInterface
     /**
      * Get the chart as an array
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function get(): array
     {
@@ -35,7 +35,7 @@ class Chart implements ChartInterface
     /**
      * Convert the chart to an array
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function toArray(): array
     {
