@@ -2,12 +2,16 @@
 
 namespace Bbsnly\ChartJs;
 
+use Bbsnly\ChartJs\Config\ConfigInterface;
 use Bbsnly\ChartJs\Config\Data;
 use Bbsnly\ChartJs\Config\Options;
+use InvalidArgumentException;
 
 class Chart implements ChartInterface
 {
-    public ?string $type;
+    use SerializesToJson;
+
+    public ?string $type = null;
 
     public Options $options;
 
@@ -15,46 +19,54 @@ class Chart implements ChartInterface
 
     public function __construct()
     {
-        $this->type = null;
-
         $this->options = new Options();
 
         $this->data = new Data();
     }
 
-    /**
-     * Get the chart as an array
-     *
-     * @return array<string, mixed>
-     */
-    public function get(): array
+    public function __clone()
     {
-        return $this->toArray();
+        $this->options = clone $this->options;
+        $this->data = clone $this->data;
     }
 
     /**
-     * Convert the chart to an array
+     * Convert the chart to an array. A type that was never set is omitted.
      *
      * @return array<string, mixed>
      */
     public function toArray(): array
     {
-        return [
-            'type' => $this->type,
+        $config = [
             'data' => $this->data->toArray(),
-            'options' => $this->options->toArray()
+            'options' => $this->options->toArray(),
         ];
+
+        if ($this->type !== null) {
+            $config = ['type' => $this->type] + $config;
+        }
+
+        return $config;
     }
 
     /**
-     * Convert the chart to JSON
+     * Like toArray(), but keeps data/options as objects so empty configs
+     * encode as {} instead of [].
      *
-     * @return string
-     * @throws \JsonException
+     * @return array<string, mixed>
      */
-    public function toJson(): string
+    public function jsonSerialize(): array
     {
-        return json_encode($this->toArray(), JSON_THROW_ON_ERROR | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT);
+        $config = [
+            'data' => $this->data,
+            'options' => $this->options,
+        ];
+
+        if ($this->type !== null) {
+            $config = ['type' => $this->type] + $config;
+        }
+
+        return $config;
     }
 
     /**
@@ -84,65 +96,80 @@ class Chart implements ChartInterface
     }
 
     /**
-     * Helper to generate beginAtZero configuration
+     * Helper to make the y axis begin at zero (Chart.js 3+ scale syntax).
+     * Merges into any scales already configured.
      *
      * @return self
      */
     public function beginAtZero(): self
     {
-        $this->options->scales([
-            'yAxes' => [
-                [
-                    'ticks' => [
-                        'beginAtZero' => true
-                    ]
-                ]
-            ]
-        ]);
+        $scales = $this->options->scales ?? [];
+
+        $yScale = (array) ($scales['y'] ?? []);
+        $yScale['beginAtZero'] = true;
+        $scales['y'] = $yScale;
+
+        $this->options->scales = $scales;
 
         return $this;
     }
 
     /**
-     * Generate the HTML representation of the chart
+     * Generate the HTML and JavaScript for rendering the chart.
+     *
+     * The canvas id gets a random suffix by default so the same element
+     * name can be rendered more than once per page; pass $uniqueId = false
+     * to use $element as the id verbatim. Each instance is registered in
+     * window.bbsnlyChartJSInstances, keyed by canvas id.
      *
      * @param string $element
-     * @param Chart|null $chart
+     * @param bool $uniqueId
      * @return string
+     * @throws InvalidArgumentException when $element is not a valid id
+     * @throws \JsonException when the chart config cannot be encoded
+     * @throws \Exception when no source of randomness is available
      */
-    public function toHtml(string $element, ?Chart $chart = null): string
+    public function toHtml(string $element, bool $uniqueId = true): string
     {
-        if ($chart === null) {
-            $chart = $this;
+        if (preg_match('/^[A-Za-z][A-Za-z0-9_-]*$/D', $element) !== 1) {
+            throw new InvalidArgumentException(sprintf(
+                'Invalid element id "%s": expected a letter followed by letters, digits, hyphens or underscores',
+                $element
+            ));
         }
 
-        $uniqueSuffix = '_' . uniqid();
-        $elementId = htmlspecialchars($element . $uniqueSuffix, ENT_QUOTES, 'UTF-8');
-        $chartId = 'chart' . $uniqueSuffix;
-        $instancesVar = 'bbsnlyChartJSInstances'; // Namespace the global variable
+        $elementId = $uniqueId ? $element . '_' . bin2hex(random_bytes(6)) : $element;
+        $elementIdJs = json_encode($elementId, ConfigInterface::JSON_FLAGS);
 
         return '<canvas id="' . $elementId . '"></canvas>
         <script>
             (function() {
-                const canvas = document.getElementById("' . $elementId . '");
+                const canvas = document.getElementById(' . $elementIdJs . ');
                 if (!canvas) {
-                    console.error("Canvas element not found: ' . $elementId . '");
+                    console.error("ChartJS-PHP: canvas element not found:", ' . $elementIdJs . ');
                     return;
                 }
-                const ctx = canvas.getContext("2d");
-                const ' . $chartId . ' = new Chart(ctx, ' . $chart->toJson() . ');
 
-                // Store chart instance for potential external access
-                if (typeof window.' . $instancesVar . ' === "undefined") {
-                    window.' . $instancesVar . ' = {};
+                window.bbsnlyChartJSInstances = window.bbsnlyChartJSInstances || {};
+
+                // Re-rendering into the same id (e.g. after a partial page
+                // swap) must release the previous chart first, or Chart.js
+                // refuses to reuse the canvas.
+                if (window.bbsnlyChartJSInstances[' . $elementIdJs . ']) {
+                    window.bbsnlyChartJSInstances[' . $elementIdJs . '].destroy();
                 }
-                window.' . $instancesVar . '["' . $elementId . '"] = ' . $chartId . ';
 
-                // Cleanup on page unload to prevent memory leaks
-                window.addEventListener("unload", function() {
-                    if (window.' . $instancesVar . '["' . $elementId . '"]) {
-                        ' . $chartId . '.destroy();
-                        delete window.' . $instancesVar . '["' . $elementId . '"];
+                const chart = new Chart(canvas, ' . $this->toJson() . ');
+
+                // Expose the instance for external access
+                window.bbsnlyChartJSInstances[' . $elementIdJs . '] = chart;
+
+                // Destroy the chart on real navigation away, but keep it
+                // alive when the page is suspended into the bfcache.
+                window.addEventListener("pagehide", function (event) {
+                    if (!event.persisted && window.bbsnlyChartJSInstances[' . $elementIdJs . ']) {
+                        window.bbsnlyChartJSInstances[' . $elementIdJs . '].destroy();
+                        delete window.bbsnlyChartJSInstances[' . $elementIdJs . '];
                     }
                 });
             })();

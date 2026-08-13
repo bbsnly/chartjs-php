@@ -2,7 +2,7 @@
 
 namespace Bbsnly\ChartJs;
 
-interface ChartInterface
+interface ChartInterface extends \JsonSerializable
 {
     /**
      * @return array<string, mixed>

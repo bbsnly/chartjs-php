@@ -2,9 +2,11 @@
 
 namespace Tests;
 
+use ArgumentCountError;
 use Bbsnly\ChartJs\BarChart;
 use Bbsnly\ChartJs\BubbleChart;
 use Bbsnly\ChartJs\Chart;
+use Bbsnly\ChartJs\Config\Config;
 use Bbsnly\ChartJs\Config\Data;
 use Bbsnly\ChartJs\Config\Dataset;
 use Bbsnly\ChartJs\Config\Options;
@@ -14,6 +16,10 @@ use Bbsnly\ChartJs\PieChart;
 use Bbsnly\ChartJs\PolarAreaChart;
 use Bbsnly\ChartJs\RadarChart;
 use Bbsnly\ChartJs\ScatterChart;
+use InvalidArgumentException;
+use JsonException;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 class ChartTest extends TestCase
 {
@@ -26,10 +32,8 @@ class ChartTest extends TestCase
 
     /**
      * Test if the chart instance can be created successfully.
-     *
-     * We assert that the created instance is an instance of the Chart class.
      */
-    public function test_can_create_it()
+    public function test_can_create_it(): void
     {
         $this->assertInstanceOf(Chart::class, $this->chart);
     }
@@ -37,7 +41,7 @@ class ChartTest extends TestCase
     /**
      * Test if chart type is correctly set using helper class BarChart.
      */
-    public function test_can_create_bar_chart()
+    public function test_can_create_bar_chart(): void
     {
         $this->chart = new BarChart;
         $this->assertEquals('bar', $this->chart->type);
@@ -46,7 +50,7 @@ class ChartTest extends TestCase
     /**
      * Test if chart type is correctly set using helper class BubbleChart.
      */
-    public function test_can_create_bubble_chart()
+    public function test_can_create_bubble_chart(): void
     {
         $this->chart = new BubbleChart;
         $this->assertEquals('bubble', $this->chart->type);
@@ -55,7 +59,7 @@ class ChartTest extends TestCase
     /**
      * Test if chart type is correctly set using helper class DoughnutChart.
      */
-    public function test_can_create_doughnut_chart()
+    public function test_can_create_doughnut_chart(): void
     {
         $this->chart = new DoughnutChart;
         $this->assertEquals('doughnut', $this->chart->type);
@@ -64,7 +68,7 @@ class ChartTest extends TestCase
     /**
      * Test if chart type is correctly set using helper class LineChart.
      */
-    public function test_can_create_line_chart()
+    public function test_can_create_line_chart(): void
     {
         $this->chart = new LineChart;
         $this->assertEquals('line', $this->chart->type);
@@ -73,7 +77,7 @@ class ChartTest extends TestCase
     /**
      * Test if chart type is correctly set using helper class PieChart.
      */
-    public function test_can_create_pie_chart()
+    public function test_can_create_pie_chart(): void
     {
         $this->chart = new PieChart;
         $this->assertEquals('pie', $this->chart->type);
@@ -82,7 +86,7 @@ class ChartTest extends TestCase
     /**
      * Test if chart type is correctly set using helper class PolarAreaChart.
      */
-    public function test_can_create_polar_area_chart()
+    public function test_can_create_polar_area_chart(): void
     {
         $this->chart = new PolarAreaChart;
         $this->assertEquals('polarArea', $this->chart->type);
@@ -91,7 +95,7 @@ class ChartTest extends TestCase
     /**
      * Test if chart type is correctly set using helper class RadarChart.
      */
-    public function test_can_create_radar_chart()
+    public function test_can_create_radar_chart(): void
     {
         $this->chart = new RadarChart;
         $this->assertEquals('radar', $this->chart->type);
@@ -100,7 +104,7 @@ class ChartTest extends TestCase
     /**
      * Test if chart type is correctly set using helper class ScatterChart.
      */
-    public function test_can_create_scatter_chart()
+    public function test_can_create_scatter_chart(): void
     {
         $this->chart = new ScatterChart;
         $this->assertEquals('scatter', $this->chart->type);
@@ -108,11 +112,8 @@ class ChartTest extends TestCase
 
     /**
      * Test if the chart is responsive.
-     *
-     * We set the chart type to 'line' and assert that the chart options
-     * include the 'responsive' property set to true.
      */
-    public function test_it_is_responsive()
+    public function test_it_is_responsive(): void
     {
         $expected = [
             'type' => 'line',
@@ -131,20 +132,18 @@ class ChartTest extends TestCase
     }
 
     /**
-     * Test if the chart is animated.
-     *
-     * We set the chart type to 'line' and assert that the chart
-     * options include the 'responsive' property set to true and the
-     * 'responsiveAnimationDuration' property set to 10.
+     * Test if the chart is animated using Chart.js 3+ animation options.
      */
-    public function test_it_is_animated()
+    public function test_it_is_animated(): void
     {
         $expected = [
             'type' => 'line',
             'data' => [],
             'options' => [
                 'responsive' => true,
-                'responsiveAnimationDuration' => 10
+                'animation' => [
+                    'duration' => 10
+                ]
             ]
         ];
 
@@ -152,7 +151,7 @@ class ChartTest extends TestCase
 
         $options = (new Options)
             ->responsive(true)
-            ->responsiveAnimationDuration(10);
+            ->animation(['duration' => 10]);
 
         $this->chart->options($options);
 
@@ -161,12 +160,8 @@ class ChartTest extends TestCase
 
     /**
      * Test if the chart has basic datasets in JSON format.
-     *
-     * We create a Data object with two datasets, each containing an array of data values.
-     * We set the chart data to the created Data object and assert that the
-     * chart data is encoded to the expected JSON format.
      */
-    public function test_it_has_basic_datasets_json()
+    public function test_it_has_basic_datasets_json(): void
     {
         $data = new Data([
             'datasets' => [
@@ -181,34 +176,23 @@ class ChartTest extends TestCase
 
         $this->chart->data($data);
 
-        $expected = json_encode([
-            'type' => null,
+        $expected = [
             'data' => [
                 'datasets' => [
-                    (object)[
-                        'data' => [10, 20, 30]
-                    ],
-                    (object)[
-                        'data' => [30, 20, 10]
-                    ]
-                ]
+                    ['data' => [10, 20, 30]],
+                    ['data' => [30, 20, 10]],
+                ],
             ],
-            'options' => []
-        ], true);
+            'options' => [],
+        ];
 
-        $this->assertEquals($expected, $this->chart->toJson());
+        $this->assertSame($expected, json_decode($this->chart->toJson(), true));
     }
 
     /**
      * Test if the chart has basic data with labels.
-     *
-     * We create a Data object and two Dataset objects.
-     * We set the data values and labels for the datasets and set the chart
-     * data to the created Data object.
-     * We assert that the chart data includes the datasets, labels, and
-     * other properties in the expected format.
      */
-    public function test_it_has_basic_data_with_labels()
+    public function test_it_has_basic_data_with_labels(): void
     {
         $data = new Data;
 
@@ -222,7 +206,6 @@ class ChartTest extends TestCase
         $this->chart->data($data);
 
         $expected = [
-            'type' => null,
             'data' => [
                 'datasets' => [
                     [
@@ -242,14 +225,8 @@ class ChartTest extends TestCase
 
     /**
      * Test if the chart has basic data with labels and colors.
-     *
-     * We create a Data object and two Dataset objects.
-     * We set the data values, labels, and background colors for the datasets
-     * and set the chart data to the created Data object.
-     * We assert that the chart data includes the datasets, labels,
-     * background colors, and other properties in the expected format.
      */
-    public function test_it_has_basic_data_with_labels_and_colors()
+    public function test_it_has_basic_data_with_labels_and_colors(): void
     {
         $data = new Data;
 
@@ -263,7 +240,6 @@ class ChartTest extends TestCase
         $this->chart->data($data);
 
         $expected = [
-            'type' => null,
             'data' => [
                 'datasets' => [
                     [
@@ -284,18 +260,9 @@ class ChartTest extends TestCase
     }
 
     /**
-     * Test if the chart can be configured to start from zero using a helper method.
-     *
-     * We create a Data object and a Dataset object.
-     * We set the data values and background colors for the dataset and set
-     * the chart data to the created Data object.
-     * We call the 'beginAtZero' method on the chart instance to configure
-     * the y-axis ticks to start from zero.
-     * We assert that the chart data includes the datasets, labels,
-     * background colors, and other properties in the expected format,
-     * including the 'beginAtZero' configuration for the y-axis ticks.
+     * Test if the beginAtZero helper emits Chart.js 3+ scale syntax.
      */
-    public function test_can_set_start_from_zero_using_helper()
+    public function test_can_set_start_from_zero_using_helper(): void
     {
         $data = new Data;
 
@@ -310,7 +277,6 @@ class ChartTest extends TestCase
         $this->chart->beginAtZero();
 
         $expected = [
-            'type' => null,
             'data' => [
                 'datasets' => [
                     [
@@ -322,12 +288,8 @@ class ChartTest extends TestCase
             ],
             'options' => [
                 'scales' => [
-                    'yAxes' => [
-                        [
-                            'ticks' => [
-                                'beginAtZero' => true
-                            ]
-                        ]
+                    'y' => [
+                        'beginAtZero' => true
                     ]
                 ]
             ]
@@ -337,16 +299,27 @@ class ChartTest extends TestCase
     }
 
     /**
-     * Test if the chart can create mixed chart types.
-     *
-     * We set the chart type to 'bar' and create a Data object.
-     * We create two Dataset objects, one for the bar chart and one for the line chart.
-     * We set the data values, labels, and chart type for each dataset and set
-     * the chart data to the created Data object.
-     * We assert that the chart data includes the datasets, labels, chart type,
-     * and other properties in the expected format.
+     * Test if beginAtZero merges into existing scales instead of replacing them.
      */
-    public function test_can_create_mixed_chart_types()
+    public function test_begin_at_zero_preserves_existing_scales(): void
+    {
+        $this->chart->options->scales = [
+            'x' => ['grid' => ['display' => false]],
+            'y' => ['max' => 100],
+        ];
+
+        $this->chart->beginAtZero();
+
+        $this->assertEquals([
+            'x' => ['grid' => ['display' => false]],
+            'y' => ['max' => 100, 'beginAtZero' => true],
+        ], $this->chart->options->scales);
+    }
+
+    /**
+     * Test if the chart can create mixed chart types.
+     */
+    public function test_can_create_mixed_chart_types(): void
     {
         $this->chart->type = 'bar';
 
@@ -386,7 +359,7 @@ class ChartTest extends TestCase
     /**
      * Test if the chart dataset can be set as an array without using a method.
      */
-    public function test_can_set_dataset_as_an_array()
+    public function test_can_set_dataset_as_an_array(): void
     {
         $this->chart->type = 'bar';
 
@@ -413,9 +386,9 @@ class ChartTest extends TestCase
     /**
      * Test if invalid JSON throws JsonException
      */
-    public function test_invalid_json_throws_exception()
+    public function test_invalid_json_throws_exception(): void
     {
-        $this->expectException(\JsonException::class);
+        $this->expectException(JsonException::class);
 
         // Create an invalid UTF-8 sequence to force JSON encoding error
         $data = new Data();
@@ -428,34 +401,320 @@ class ChartTest extends TestCase
     }
 
     /**
-     * Test if HTML special characters are properly escaped
+     * A chart without a type must omit "type" from its array and JSON
+     * output, and empty data/options must encode as JSON objects, not
+     * arrays, to match the config shape Chart.js expects.
      */
-    public function test_html_special_chars_are_escaped()
+    public function test_empty_chart_serializes_to_json_objects(): void
     {
-        $maliciousId = '"><script>alert("xss")</script>';
-        $html = $this->chart->toHtml($maliciousId);
+        $this->assertSame('{"data":{},"options":{}}', $this->chart->toJson());
+        $this->assertSame(['data' => [], 'options' => []], $this->chart->toArray());
 
-        // Update assertion to include unique suffix
-        $this->assertStringContains('id="&quot;&gt;&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;_', $html);
-        $this->assertStringNotContains($maliciousId, $html);
+        $this->chart->type = 'line';
+
+        $this->assertSame('{"type":"line","data":{},"options":{}}', $this->chart->toJson());
     }
 
     /**
-     * Test if chart cleanup code is present
+     * Serialization must not mutate the object graph: after toArray() the
+     * nested Dataset objects must stay objects, so later changes to them
+     * are still reflected in subsequent serializations.
      */
-    public function test_chart_cleanup_code_is_present()
+    public function test_to_array_does_not_mutate_nested_objects(): void
+    {
+        $dataset = (new Dataset)->data([1, 2, 3]);
+
+        $data = new Data;
+        $data->datasets([$dataset]);
+
+        $data->toArray();
+
+        $dataset->label('added later');
+
+        $this->assertEquals([
+            'datasets' => [
+                ['data' => [1, 2, 3], 'label' => 'added later'],
+            ],
+        ], $data->toArray());
+    }
+
+    /**
+     * PHP array copies share reference slots, and &__get() creates such
+     * slots — serialization must stay non-mutating even when the caller
+     * holds a reference into the attributes.
+     */
+    public function test_to_array_does_not_mutate_through_held_references(): void
+    {
+        $data = new Data;
+
+        $datasets = &$data->datasets;
+        $datasets[] = (new Dataset)->data([1]);
+
+        $data->toArray();
+
+        $this->assertInstanceOf(Dataset::class, $data->datasets[0]);
+    }
+
+    /**
+     * References can also point at elements *inside* an attribute array;
+     * serialization must not write through them either.
+     */
+    public function test_to_array_does_not_mutate_through_element_references(): void
+    {
+        $data = new Data;
+
+        $datasets = &$data->datasets;
+        $datasets[] = (new Dataset)->data([1]);
+        $first = &$datasets[0];
+
+        $data->toArray();
+
+        $this->assertInstanceOf(Dataset::class, $first);
+        $this->assertInstanceOf(Dataset::class, $data->datasets[0]);
+    }
+
+    /**
+     * A cloned config must not share state with the original, even through
+     * reference slots created by &__get().
+     */
+    public function test_cloned_config_does_not_share_state(): void
+    {
+        $original = new Data;
+
+        $ref = &$original->datasets;
+        $ref[] = 'first';
+
+        $copy = clone $original;
+        $copy->datasets[] = 'second';
+
+        $this->assertSame(['datasets' => ['first']], $original->toArray());
+        $this->assertSame(['datasets' => ['first', 'second']], $copy->toArray());
+    }
+
+    /**
+     * Cloning a chart must clone its data and options too.
+     */
+    public function test_cloned_chart_does_not_share_data_and_options(): void
+    {
+        $this->chart->data->labels(['a']);
+
+        $copy = clone $this->chart;
+        $copy->data->labels(['b']);
+        $copy->options->responsive(true);
+
+        $this->assertSame(['labels' => ['a']], $this->chart->data->toArray());
+        $this->assertSame([], $this->chart->options->toArray());
+        $this->assertSame(['labels' => ['b']], $copy->data->toArray());
+    }
+
+    /**
+     * isset(), empty() and unset() must work on magic config properties.
+     */
+    public function test_isset_and_unset_work_on_magic_properties(): void
+    {
+        $data = new Data;
+
+        $this->assertFalse(isset($data->labels));
+        $this->assertTrue(empty($data->labels));
+
+        $data->labels = ['Red'];
+
+        $this->assertTrue(isset($data->labels));
+        $this->assertFalse(empty($data->labels));
+
+        unset($data->labels);
+
+        $this->assertFalse(isset($data->labels));
+        $this->assertSame([], $data->toArray());
+    }
+
+    /**
+     * Reading a property that was never set must not leak a null entry
+     * into the serialized output.
+     */
+    public function test_reading_missing_property_does_not_leak_into_output(): void
+    {
+        $data = new Data;
+
+        // @phpstan-ignore property.notFound (reading an undeclared magic property is the point of this test)
+        $this->assertNull($data->missing);
+        $this->assertSame([], $data->toArray());
+    }
+
+    /**
+     * An explicitly assigned null is intentional and must be kept.
+     */
+    public function test_explicit_null_is_kept_in_output(): void
+    {
+        $options = new Options;
+        // @phpstan-ignore property.notFound (assigning an undeclared magic property is the point of this test)
+        $options->borderColor = null;
+
+        $this->assertSame(['borderColor' => null], $options->toArray());
+    }
+
+    /**
+     * Calling a magic setter without arguments must throw instead of
+     * silently assigning false.
+     */
+    public function test_magic_call_without_arguments_throws(): void
+    {
+        $this->expectException(ArgumentCountError::class);
+
+        // @phpstan-ignore arguments.count (calling without arguments is the point of this test)
+        (new Options)->responsive();
+    }
+
+    /**
+     * Extra arguments must throw too — silently discarding them teaches
+     * callers the signature is validated when it is not.
+     */
+    public function test_magic_call_with_extra_arguments_throws(): void
+    {
+        $this->expectException(ArgumentCountError::class);
+
+        // @phpstan-ignore arguments.count (passing extra arguments is the point of this test)
+        (new Options)->responsive(true, false);
+    }
+
+    /**
+     * With __isset() in place, null coalescing must respect set properties
+     * instead of always producing the fallback.
+     */
+    public function test_null_coalescing_respects_set_properties(): void
+    {
+        $options = new Options;
+
+        $this->assertSame('fallback', $options->indexAxis ?? 'fallback');
+
+        $options->responsive = false;
+
+        $this->assertFalse($options->responsive ?? true);
+    }
+
+    /**
+     * Test if element ids are validated before being embedded in HTML.
+     */
+    #[DataProvider('invalidElementIds')]
+    public function test_html_rejects_invalid_element_ids(string $invalidId): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->chart->toHtml($invalidId);
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function invalidElementIds(): array
+    {
+        return [
+            'script injection' => ['"><script>alert("xss")</script>'],
+            'leading digit' => ['1chart'],
+            'space' => ['my chart'],
+            'empty string' => [''],
+            'trailing newline' => ["chart\n"],
+        ];
+    }
+
+    /**
+     * Test if the unique id suffix can be disabled so the element keeps
+     * the exact id the caller asked for.
+     */
+    public function test_html_uses_element_id_verbatim_when_suffix_disabled(): void
+    {
+        $html = $this->chart->toHtml('my_chart', false);
+
+        $this->assertStringContainsString('<canvas id="my_chart"></canvas>', $html);
+        $this->assertStringContainsString('document.getElementById("my_chart")', $html);
+    }
+
+    /**
+     * Test if generated element ids are unique across renders.
+     */
+    public function test_element_ids_are_unique(): void
+    {
+        $html1 = $this->chart->toHtml('my-chart');
+        $html2 = $this->chart->toHtml('my-chart');
+
+        preg_match('/id="(my-chart_[0-9a-f]{12})"/', $html1, $matches1);
+        preg_match('/id="(my-chart_[0-9a-f]{12})"/', $html2, $matches2);
+
+        $this->assertNotEmpty($matches1, 'Expected a random-suffixed id in the output');
+        $this->assertNotEmpty($matches2, 'Expected a random-suffixed id in the output');
+        $this->assertNotEquals($matches1[1], $matches2[1]);
+    }
+
+    /**
+     * Cleanup must use pagehide (unload is deprecated and defeats the
+     * back/forward cache) and must keep the chart alive when the page is
+     * merely suspended into the bfcache.
+     */
+    public function test_chart_cleanup_uses_pagehide(): void
+    {
+        $html = $this->chart->toHtml('test-chart', false);
+
+        $this->assertStringContainsString('window.addEventListener("pagehide"', $html);
+        $this->assertStringContainsString('event.persisted', $html);
+        $this->assertStringContainsString('.destroy()', $html);
+        $this->assertStringNotContainsString('"unload"', $html);
+    }
+
+    /**
+     * Test if chart instances are registered for external access.
+     */
+    public function test_chart_instances_are_tracked(): void
+    {
+        $html = $this->chart->toHtml('test-chart', false);
+
+        $this->assertStringContainsString('window.bbsnlyChartJSInstances', $html);
+        $this->assertStringContainsString('window.bbsnlyChartJSInstances["test-chart"] = chart', $html);
+        $this->assertStringContainsString('delete window.bbsnlyChartJSInstances["test-chart"]', $html);
+    }
+
+    /**
+     * The chart config produced by toJson() must be embedded verbatim in
+     * the generated JavaScript.
+     */
+    public function test_html_embeds_chart_config_json(): void
+    {
+        $this->chart->type = 'line';
+
+        $html = $this->chart->toHtml('embed-test', false);
+
+        $this->assertStringContainsString('new Chart(canvas, {"type":"line","data":{},"options":{}})', $html);
+    }
+
+    /**
+     * A hostile label must not be able to close the script block early:
+     * the only literal </script> in the output is the real closing tag.
+     */
+    public function test_html_contains_single_script_block_with_hostile_labels(): void
+    {
+        $data = new Data;
+        $data->labels(['</script><script>alert(1)</script>']);
+        $this->chart->data($data);
+
+        $html = $this->chart->toHtml('hostile', false);
+
+        $this->assertSame(1, substr_count($html, '</script>'));
+    }
+
+    /**
+     * Test if error handling for missing canvas is present
+     */
+    public function test_canvas_error_handling(): void
     {
         $html = $this->chart->toHtml('test-chart');
-        $chartId = 'chart_' . substr($html, strpos($html, 'chart_') + 6, 13); // Extract the dynamic chart ID
 
-        $this->assertStringContains('window.addEventListener("unload"', $html);
-        $this->assertStringContains($chartId . '.destroy()', $html);
+        $this->assertStringContainsString('if (!canvas)', $html);
+        $this->assertStringContainsString('console.error', $html);
     }
 
     /**
      * Test if JSON output properly escapes HTML characters
      */
-    public function test_json_escapes_html_characters()
+    public function test_json_escapes_html_characters(): void
     {
         $data = new Data;
         $datasets = [
@@ -466,72 +725,16 @@ class ChartTest extends TestCase
 
         $json = $this->chart->toJson();
 
-        $this->assertStringNotContains('<script>', $json);
-        $this->assertStringContains('\u003Cscript\u003E', $json);
+        $this->assertStringNotContainsString('<script>', $json);
+        $this->assertStringContainsString('\\u003Cscript\\u003E', $json);
     }
 
-    /**
-     * Test if chart instances are properly tracked and cleaned up
-     */
-    public function test_chart_instances_are_tracked()
-    {
-        $html = $this->chart->toHtml('test-chart');
-
-        // Update assertions to use correct global variable name
-        $this->assertStringContains('window.bbsnlyChartJSInstances', $html);
-        $this->assertStringContains('bbsnlyChartJSInstances["test-chart_', $html);
-        $this->assertStringContains('delete window.bbsnlyChartJSInstances', $html);
-    }
-
-    public function test_element_ids_are_unique()
-    {
-        $html1 = $this->chart->toHtml('my-chart');
-        $html2 = $this->chart->toHtml('my-chart');
-
-        preg_match('/id="(my-chart_[^"]+)"/', $html1, $matches1);
-        preg_match('/id="(my-chart_[^"]+)"/', $html2, $matches2);
-
-        $this->assertNotEquals($matches1[1], $matches2[1]);
-    }
-
-    /**
-     * Test if error handling for missing canvas is present
-     */
-    public function test_canvas_error_handling()
-    {
-        $html = $this->chart->toHtml('test-chart');
-
-        $this->assertStringContains('if (!canvas)', $html);
-        $this->assertStringContains('console.error', $html);
-    }
-
-    /**
-     * Helper method to assert string contains substring
-     */
-    private function assertStringContains(string $needle, string $haystack): void
-    {
-        $this->assertTrue(
-            str_contains($haystack, $needle),
-            "Failed asserting that '$haystack' contains '$needle'"
-        );
-    }
-
-    /**
-     * Helper method to assert string does not contain substring
-     */
-    private function assertStringNotContains(string $needle, string $haystack): void
-    {
-        $this->assertFalse(
-            str_contains($haystack, $needle),
-            "Failed asserting that '$haystack' does not contain '$needle'"
-        );
-    }
     /**
      * Test if Config class get() and toJson() methods work correctly
      */
-    public function test_config_get_and_tojson_methods()
+    public function test_config_get_and_tojson_methods(): void
     {
-        $config = new \Bbsnly\ChartJs\Config\Config(['key' => 'value']);
+        $config = new Config(['key' => 'value']);
 
         $this->assertEquals(['key' => 'value'], $config->get());
         $this->assertEquals('{"key":"value"}', $config->toJson());
@@ -546,7 +749,7 @@ class ChartTest extends TestCase
      * "Indirect modification of overloaded property ... has no effect"
      * (which PHPUnit turns into a failure) and the append is silently lost.
      */
-    public function test_it_can_append_to_a_magic_array_property()
+    public function test_it_can_append_to_a_magic_array_property(): void
     {
         $data = new Data();
 
