@@ -16,7 +16,7 @@
         "chart-generation"
     ],
     "homepage": "https://github.com/bbsnly/chartjs-php",
-    "type": "package",
+    "type": "library",
     "license": "MIT",
     "authors": [
         {
@@ -40,6 +40,10 @@
     "require-dev": {
         "phpstan/phpstan": "^2.0",
         "phpunit/phpunit": "^10.0"
+    },
+    "scripts": {
+        "test": "phpunit",
+        "analyse": "phpstan"
     },
     "config": {
         "optimize-autoloader": true,
