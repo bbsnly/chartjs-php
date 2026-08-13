@@ -14,6 +14,12 @@ namespace Bbsnly\ChartJs\Config;
  * `new Chart(ctx, <?= $chart->toJson() ?>)`) but cannot be JSON.parse'd.
  * Outside toJson() — e.g. a plain json_encode() of a config — the
  * expression degrades to an ordinary JSON string, never raw code.
+ *
+ * The expression is injected verbatim, bypassing the JSON escaping that
+ * protects data values: when embedding via toHtml() (an inline <script>
+ * block), avoid the literal character sequence "</script>" anywhere in
+ * the expression — including inside its string literals — as the HTML
+ * parser would end the script block there.
  */
 final class JsExpression implements \JsonSerializable
 {

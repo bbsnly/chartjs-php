@@ -125,7 +125,7 @@ $options->plugins = [
 ];
 ```
 
-**Security:** the wrapped code is emitted into the page unescaped — only wrap code you wrote yourself, never user input. Output containing a `JsExpression` is a JavaScript object literal rather than strict JSON: it works inline, but cannot be `JSON.parse`'d, and a plain `json_encode()` of the config (outside `toJson()`) degrades the expression to an ordinary string.
+**Security:** the wrapped code is emitted into the page unescaped — only wrap code you wrote yourself, never user input. Output containing a `JsExpression` is a JavaScript object literal rather than strict JSON: it works inline, but cannot be `JSON.parse`'d, and a plain `json_encode()` of the config (outside `toJson()`) degrades the expression to an ordinary string. One embedding caveat: because the expression bypasses JSON escaping, avoid the literal sequence `</script>` anywhere inside it (even in its string literals) when rendering via `toHtml()` — the HTML parser would end the inline script block there.
 
 ## Tests
 
