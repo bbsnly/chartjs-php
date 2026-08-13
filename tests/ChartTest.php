@@ -780,6 +780,8 @@ class ChartTest extends TestCase
     {
         $expression = new JsExpression('() => 1');
 
+        $this->assertSame('() => 1', $expression->expression());
+
         $options = new Options;
         $options->animation = ['onComplete' => $expression];
 
