@@ -29,7 +29,6 @@ jobs:
         php-version: ${{ matrix.php-versions }}
         tools: composer:v2
         coverage: xdebug
-      continue-on-error: ${{ matrix.php-versions == '8.5' }}
 
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
@@ -39,9 +38,9 @@ jobs:
       uses: actions/cache@v4
       with:
         path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        key: ${{ runner.os }}-php-${{ matrix.php-versions }}-${{ hashFiles('composer.json') }}
         restore-keys: |
-          ${{ runner.os }}-php-
+          ${{ runner.os }}-php-${{ matrix.php-versions }}-
 
     - name: Install dependencies
       uses: nick-fields/retry@v3
@@ -54,10 +53,10 @@ jobs:
       run: vendor/bin/phpstan --configuration="phpstan.neon.dist"
 
     - name: Run test suite
-      run: vendor/bin/phpunit --coverage-clover=coverage.xml --log-junit junit.xml
+      run: vendor/bin/phpunit --coverage-clover=coverage.xml
 
     - name: Upload coverage reports
-      uses: codecov/codecov-action@v4
+      uses: codecov/codecov-action@v5
       if: ${{ matrix.php-versions == '8.3' }}
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
