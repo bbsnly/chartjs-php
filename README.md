@@ -58,9 +58,17 @@ $options = new Options();
 $options->responsive = true;
 $chart->options($options);
 
-$chart->get(); // Returns the array of chart data
-$chart->toJson(); // Returns the JSON representation of the chart data
-$chart->toHtml('my_chart'); // Returns the HTML and JavaScript code for the chart
+$chart->get(); // Chart config as a PHP array
+$chart->toJson(); // Chart config as JSON — use this when feeding Chart.js
+$chart->toHtml('my_chart'); // HTML and JavaScript that render the chart
+```
+
+When passing the config to Chart.js yourself, always use `toJson()` (or `json_encode($chart)`): it encodes empty `data`/`options` as `{}` the way Chart.js expects. A plain `json_encode($chart->get())` would encode them as `[]`.
+
+The `beginAtZero()` helper makes the y axis start at zero (Chart.js 3+ scale syntax) and merges with any scales you already configured:
+
+```php
+$chart->beginAtZero(); // options.scales.y.beginAtZero = true
 ```
 
 ---
