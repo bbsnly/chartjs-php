@@ -3,6 +3,7 @@
 namespace Bbsnly\ChartJs;
 
 use Bbsnly\ChartJs\Config\ConfigInterface;
+use Bbsnly\ChartJs\Config\JsExpression;
 
 /**
  * Shared get()/toJson() implementations for chart and config objects.
@@ -20,13 +21,23 @@ trait SerializesToJson
     }
 
     /**
-     * Convert the object to JSON safe for embedding in HTML.
+     * Convert the object to JSON safe for embedding in HTML. Any
+     * JsExpression values are embedded as raw JavaScript, making the
+     * output a JS object literal rather than strict JSON.
      *
      * @throws \JsonException
      */
     public function toJson(): string
     {
-        return json_encode($this, ConfigInterface::JSON_FLAGS);
+        $nonce = JsExpression::beginCapture();
+
+        try {
+            $json = json_encode($this, ConfigInterface::JSON_FLAGS);
+        } finally {
+            JsExpression::endCapture();
+        }
+
+        return JsExpression::inject($json, $nonce);
     }
 
     /**

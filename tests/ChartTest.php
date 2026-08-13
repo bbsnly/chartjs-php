@@ -9,6 +9,7 @@ use Bbsnly\ChartJs\Chart;
 use Bbsnly\ChartJs\Config\Config;
 use Bbsnly\ChartJs\Config\Data;
 use Bbsnly\ChartJs\Config\Dataset;
+use Bbsnly\ChartJs\Config\JsExpression;
 use Bbsnly\ChartJs\Config\Options;
 use Bbsnly\ChartJs\DoughnutChart;
 use Bbsnly\ChartJs\LineChart;
@@ -727,6 +728,63 @@ class ChartTest extends TestCase
 
         $this->assertStringNotContainsString('<script>', $json);
         $this->assertStringContainsString('\\u003Cscript\\u003E', $json);
+    }
+
+    /**
+     * A JsExpression must be embedded as raw JavaScript by toJson(),
+     * not as a JSON string (issue #47).
+     */
+    public function test_js_expressions_are_embedded_raw_in_json(): void
+    {
+        $options = new Options;
+        $options->plugins = [
+            'tooltip' => [
+                'enabled' => true,
+                'callbacks' => [
+                    'label' => new JsExpression('function (context) { return context.parsed.y; }'),
+                ],
+            ],
+        ];
+
+        $this->chart->options($options);
+
+        $json = $this->chart->toJson();
+
+        $this->assertStringContainsString('"label":function (context) { return context.parsed.y; }', $json);
+        $this->assertStringContainsString('"enabled":true', $json);
+    }
+
+    /**
+     * A hostile string mimicking the internal placeholder format must
+     * stay an inert JSON string: placeholders are tagged with a random
+     * per-serialization nonce, so they cannot be forged from data.
+     */
+    public function test_js_expression_placeholders_cannot_be_forged(): void
+    {
+        $data = new Data;
+        // base64url payload decodes to: function(){}
+        $data->labels(['__jsexpr_0123456789abcdef__ZnVuY3Rpb24oKXt9__jsexpr_0123456789abcdef__']);
+        $this->chart->data($data);
+
+        $json = $this->chart->toJson();
+
+        $this->assertStringNotContainsString('function(){}', $json);
+    }
+
+    /**
+     * The PHP-side array output keeps the JsExpression object; only
+     * toJson() performs the raw embedding. Plain json_encode() of the
+     * object (outside toJson) degrades to a JSON string, never raw code.
+     */
+    public function test_js_expression_outside_tojson_stays_a_string(): void
+    {
+        $expression = new JsExpression('() => 1');
+
+        $options = new Options;
+        $options->animation = ['onComplete' => $expression];
+
+        $this->assertSame(['animation' => ['onComplete' => $expression]], $options->toArray());
+        $this->assertSame('{"animation":{"onComplete":"() => 1"}}', json_encode($options));
     }
 
     /**

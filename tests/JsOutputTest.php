@@ -5,6 +5,8 @@ namespace Tests;
 use Bbsnly\ChartJs\Chart;
 use Bbsnly\ChartJs\Config\Data;
 use Bbsnly\ChartJs\Config\Dataset;
+use Bbsnly\ChartJs\Config\JsExpression;
+use Bbsnly\ChartJs\Config\Options;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -124,6 +126,41 @@ class JsOutputTest extends TestCase
         $this->assertSame(0, $result['constructedCount']);
         $this->assertNull($result['registry']);
         $this->assertSame(['ChartJS-PHP: canvas element not found: js_test'], $result['errors']);
+    }
+
+    /**
+     * A JsExpression in the config must evaluate to a real, callable
+     * function once the emitted object literal runs in a JS engine.
+     */
+    public function test_js_expressions_evaluate_to_real_functions(): void
+    {
+        $chart = new Chart;
+        $chart->type = 'bar';
+
+        $options = new Options;
+        $options->plugins = [
+            'tooltip' => [
+                'callbacks' => [
+                    'label' => new JsExpression('function (context) { return "y=" + context; }'),
+                ],
+            ],
+        ];
+        $chart->options($options);
+
+        $js = 'const cfg = ' . $chart->toJson() . ";\n"
+            . 'const label = cfg.options.plugins.tooltip.callbacks.label;' . "\n"
+            . 'console.log(typeof label, label(7));';
+
+        $file = $this->writeTempJs($js);
+
+        try {
+            exec(escapeshellarg(self::$node ?? '') . ' ' . escapeshellarg($file) . ' 2>&1', $output, $exitCode);
+        } finally {
+            unlink($file);
+        }
+
+        $this->assertSame(0, $exitCode, "node failed:\n" . implode("\n", $output));
+        $this->assertSame('function y=7', trim((string) end($output)));
     }
 
     public function test_generated_js_has_valid_syntax(): void

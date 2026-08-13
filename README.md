@@ -108,6 +108,25 @@ In the example below we will use the `toJson` method to generate the JSON repres
 </script>
 ```
 
+### JavaScript callbacks
+
+JSON cannot carry functions, so Chart.js callbacks (tooltip formatters, tick callbacks, scriptable options) would normally arrive as dead strings. Wrap them in `JsExpression` and `toJson()`/`toHtml()` embed them as real JavaScript:
+
+```php
+use Bbsnly\ChartJs\Config\JsExpression;
+
+$options = new Options();
+$options->plugins = [
+    'tooltip' => [
+        'callbacks' => [
+            'label' => new JsExpression('function (context) { return " $" + context.parsed.y; }'),
+        ],
+    ],
+];
+```
+
+**Security:** the wrapped code is emitted into the page unescaped — only wrap code you wrote yourself, never user input. Output containing a `JsExpression` is a JavaScript object literal rather than strict JSON: it works inline, but cannot be `JSON.parse`'d, and a plain `json_encode()` of the config (outside `toJson()`) degrades the expression to an ordinary string.
+
 ## Tests
 
 Run the test suite and static analysis with:

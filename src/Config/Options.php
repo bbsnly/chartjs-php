@@ -4,6 +4,8 @@ namespace Bbsnly\ChartJs\Config;
 
 /**
  * @property array<string, mixed>|null $scales
+ * @property array<string, mixed>|null $plugins
+ * @property array<string, mixed>|bool|null $animation
  * @property bool|null $responsive
  *
  * @method self animation(array<string, mixed>|bool $value)
