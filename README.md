@@ -23,8 +23,10 @@ composer require bbsnly/chartjs-php
 
 Minimum Requirements:
 
-- PHP version: 8.1 or higher
-- ChartJS version: 2.0 or higher
+- PHP version: 8.1 or higher (tested up to PHP 8.5)
+- ChartJS version: 3.0 or higher (4.x recommended)
+
+Upgrading from v4? See the [upgrade guide](UPGRADE.md).
 
 ## Usage
 
@@ -73,6 +75,13 @@ In the example below we will use the `toHtml` method to generate the HTML and Ja
 </div>
 ```
 
+A few things to know about `toHtml`:
+
+- The element name must start with a letter and may only contain letters, digits, hyphens, and underscores; anything else throws an `InvalidArgumentException`.
+- By default the canvas id gets a random suffix (e.g. `my_chart_a1b2c3d4e5f6`) so the same name can be rendered more than once per page. Pass `false` as the second argument — `$chart->toHtml('my_chart', false)` — to use the name verbatim, e.g. when your own CSS or JavaScript needs to target it.
+- Every rendered chart instance is registered in `window.bbsnlyChartJSInstances`, keyed by canvas id, so you can access it from your own JavaScript.
+- Rendering again into the same verbatim id (e.g. after a partial page swap with Turbo or htmx) destroys the previous chart instance before creating the new one.
+
 ---
 
 In the example below we will use the `toJson` method to generate the JSON representation of the chart data.
@@ -93,10 +102,11 @@ In the example below we will use the `toJson` method to generate the JSON repres
 
 ## Tests
 
-Run the test suite with:
+Run the test suite and static analysis with:
 
 ```shell
 composer test
+composer analyse
 ```
 
 ## Contributing
@@ -105,4 +115,4 @@ Read our [Contributing](CONTRIBUTING.md) guidelines and start improving ChartJS-
 
 ## License
 
-The ChartJS PHP is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+The ChartJS PHP is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

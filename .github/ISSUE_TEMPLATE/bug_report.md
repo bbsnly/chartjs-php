@@ -21,5 +21,11 @@ A clear and concise description of what you expected to happen.
 **Actual behavior**
 A clear and concise description of what actually happened.
 
+**Versions**
+
+- chartjs-php version: [e.g. 5.0.0]
+- PHP version: [e.g. 8.5]
+- Chart.js version: [e.g. 4.4]
+
 **Additional context**
 Add any additional context or information about the bug here.

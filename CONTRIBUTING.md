@@ -8,6 +8,16 @@ Thank you for considering contributing to the ChartJS PHP project! We welcome co
 4. Submit a pull request with a clear description of your changes and the problem they solve.
 5. Participate in the review process and address any feedback or comments.
 
+## Development setup
+
+```shell
+composer install
+composer test     # run the PHPUnit test suite
+composer analyse  # run PHPStan static analysis (level: max)
+```
+
+Both commands must pass before a pull request can be merged. Commit messages follow the [Conventional Commits](https://www.conventionalcommits.org/) format (e.g. `fix(config): ...`, `feat(chart): ...`).
+
 By contributing to ChartJS PHP, you agree to abide by the [Code of Conduct](CODE_OF_CONDUCT.md) of the project.
 
 We appreciate your contributions and look forward to working with you to make ChartJS PHP even better!
